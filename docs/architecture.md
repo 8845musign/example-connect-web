@@ -1,8 +1,11 @@
 # アーキテクチャ設計書
 
+最終更新日: 2025年1月21日
+バージョン: v2対応版
+
 ## 概要
 
-このプロジェクトは、React Router v7（Framework Mode）とconnect-webのストリーミング機能を学習するためのリアルタイムモニタリングダッシュボードです。
+このプロジェクトは、React Router v7（Framework Mode）とconnect-web v2のストリーミング機能を学習するためのリアルタイムモニタリングダッシュボードです。
 
 ## 技術スタック
 
@@ -11,22 +14,24 @@
 - **React Router v7 (Framework Mode)**: ルーティングフレームワーク
   - Server Componentは使用しない
   - Client-side onlyの構成
-- **connect-web**: gRPC-Webクライアント
+- **@connectrpc/connect-web v2**: gRPC-Webクライアント
   - ストリーミングRPCの実装
+  - @bufbuild/protobuf v2との統合
 - **TypeScript**: 型安全性の確保
 - **Vite**: ビルドツール
 
 ### バックエンド
 - **Node.js + TypeScript**: サーバーランタイム
-- **@connectrpc/connect-node**: gRPCサーバー実装
+- **@connectrpc/connect-node v2**: gRPCサーバー実装
 - **Express**: HTTPサーバー
 - **Protocol Buffers**: API定義
+- **@bufbuild/protobuf v2**: Protocol Buffersランタイム
 
 ## アーキテクチャの特徴
 
 ### 1. ストリーミング通信
 
-connect-webの3つのストリーミングパターンを実装：
+connect-web v2の3つのストリーミングパターンを実装：
 
 1. **Server Streaming RPC**
    - メトリクスデータのリアルタイム配信

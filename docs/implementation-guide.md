@@ -1,5 +1,8 @@
 # 実装ガイド
 
+最終更新日: 2025年1月21日
+バージョン: v2対応版
+
 ## React Router v7 (Framework Mode) の実装方針
 
 ### 1. ルーティング構成
@@ -35,23 +38,27 @@ export default function MetricDetail() {
   const [metrics, setMetrics] = useState<MetricData[]>([]);
   
   useEffect(() => {
-    // ストリーミング接続の確立
+    // ストリーミング接続の確立（v2 API）
     const stream = monitoringClient.streamMetrics({
       metricTypes: [params.type],
       intervalMs: 1000
     });
     
-    // データ受信ハンドラー
-    stream.subscribe({
-      next: (metric) => {
-        setMetrics(prev => [...prev.slice(-100), metric]);
-      },
-      error: (err) => {
+    // async iteratorを使用したデータ受信
+    (async () => {
+      try {
+        for await (const metric of stream) {
+          setMetrics(prev => [...prev.slice(-100), metric]);
+        }
+      } catch (err) {
         console.error('Stream error:', err);
       }
-    });
+    })();
     
-    return () => stream.cancel();
+    // クリーンアップでストリームをキャンセル
+    return () => {
+      // AbortControllerを使用してキャンセル
+    };
   }, [params.type]);
 }
 ```
@@ -79,11 +86,11 @@ export function ErrorBoundary() {
 // app/lib/client.ts
 import { createClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
-import { MonitoringService } from "./proto/monitoring/v1/service_connect";
+import { MonitoringService } from "./proto/monitoring/v1/service_pb"; // v2では_pb.tsを使用
 
 const transport = createConnectTransport({
   baseUrl: "http://localhost:8080",
-  // ストリーミング用の設定
+  // v2でのストリーミング設定
   interceptors: [],
 });
 
@@ -140,6 +147,8 @@ export function useMetricsStream(metricTypes: string[]) {
 ```
 
 ### 3. Bidirectional Streaming の実装
+
+v2ではBidirectional StreamingのAPIが変更されています：
 
 ```typescript
 // app/hooks/useInteractiveQuery.ts
@@ -271,3 +280,89 @@ export function useConnectionStatus() {
   return { status, retry: () => {} };
 }
 ```
+
+## v2 移行のポイント
+
+### 1. Protocol Buffers コード生成の変更
+
+**buf.gen.yaml の更新**：
+```yaml
+# v1
+version: v1
+plugins:
+  - plugin: es
+    out: backend/src/proto/gen
+    opt:
+      - target=ts
+  - plugin: connect-es
+    out: backend/src/proto/gen
+    opt:
+      - target=ts
+
+# v2
+version: v2
+managed:
+  enabled: true
+plugins:
+  - remote: buf.build/bufbuild/es:v2.2.0
+    out: backend/src/proto/gen
+    opt: 
+      - target=ts
+      - import_extension=js
+```
+
+### 2. メッセージ作成のAPI変更
+
+```typescript
+// v1
+import { MetricSummary } from "./metrics_pb";
+const summary = new MetricSummary();
+summary.min = 10;
+
+// v2
+import { create } from "@bufbuild/protobuf";
+import { MetricSummarySchema } from "./metrics_pb";
+const summary = create(MetricSummarySchema, {
+  min: 10,
+});
+```
+
+### 3. タイムスタンプの扱い
+
+```typescript
+// v1
+import { Timestamp } from "@bufbuild/protobuf";
+const ts = new Timestamp();
+ts.toDate();
+
+// v2
+import { timestampNow, timestampDate, timestampFromDate } from "@bufbuild/protobuf/wkt";
+const ts = timestampNow();
+const date = timestampDate(ts);
+const tsFromDate = timestampFromDate(new Date());
+```
+
+### 4. BigInt のシリアライゼーション
+
+```typescript
+// v2ではtoJsonを使用してBigIntを含むメッセージを安全にJSON化
+import { toJson } from "@bufbuild/protobuf";
+import { GetMetricSummaryResponseSchema } from "./service_pb";
+
+const jsonResponse = toJson(GetMetricSummaryResponseSchema, response);
+return json({ summary: jsonResponse.summary });
+```
+
+### 5. ストリーミングAPIの変更
+
+```typescript
+// v2ではasync iteratorパターンが推奨
+const stream = client.streamMetrics(request);
+
+// for awaitを使用したシンプルな処理
+for await (const response of stream) {
+  handleResponse(response);
+}
+```
+
+これらの変更により、よりモダンで効率的なコードが実現できます。

@@ -1,6 +1,9 @@
 # 学習目標
 
-このサンプルアプリケーションを通じて、以下の技術要素を実践的に学習できます。
+最終更新日: 2025年1月21日
+バージョン: v2対応版
+
+このサンプルアプリケーションを通じて、以下の最新技術要素を実践的に学習できます。
 
 ## React Router v7 (Framework Mode)
 
@@ -28,7 +31,7 @@
 - **Prefetching** によるナビゲーション高速化
 - **Optimistic UI** の実装パターン
 
-## connect-web ストリーミング
+## connect-web v2 ストリーミング
 
 ### 1. Server Streaming RPC
 - **実装パターン**
@@ -43,6 +46,7 @@
   - 非同期イテレーターの使用
   - ストリームのライフサイクル管理
   - メモリリークの防止
+  - AbortControllerによるキャンセル処理
 
 ### 2. Bidirectional Streaming RPC
 - **双方向通信の実装**
@@ -100,6 +104,35 @@
 - **ルートレベルのエラー処理**
 - **ストリーミングエラーの伝播**
 - **ユーザーフレンドリーなエラー表示**
+
+## @bufbuild/protobuf v2 の新機能
+
+### 1. シンプル化されたAPI
+- **関数ベースのAPI設計**
+  ```typescript
+  // v2の新しいメッセージ作成
+  const message = create(MessageSchema, { field: value });
+  ```
+
+- **スキーマ駆動開発**
+  - スキーマオブジェクトへの直接アクセス
+  - 型推論の向上
+
+### 2. Well-Known Typesの扱い
+- **タイムスタンプ操作**
+  ```typescript
+  import { timestampNow, timestampDate } from "@bufbuild/protobuf/wkt";
+  ```
+
+- **JSONシリアライゼーション**
+  ```typescript
+  const json = toJson(MessageSchema, message);
+  ```
+
+### 3. パフォーマンス最適化
+- **バンドルサイズの削減**
+- **ランタイムパフォーマンスの向上**
+- **Tree-shakingの改善**
 
 ## 実践的な学習成果
 

@@ -1,5 +1,8 @@
 # 技術的決定事項
 
+最終更新日: 2025年1月21日
+バージョン: v2対応版
+
 ## なぜこの技術スタックを選んだか
 
 ### React Router v7 (Framework Mode) を選択した理由
@@ -19,7 +22,7 @@
    - 最適化されたビルド設定
    - 開発体験の向上
 
-### connect-web を選択した理由
+### connect-web v2 を選択した理由
 
 1. **gRPCの利点**
    - 強力な型安全性（Protocol Buffers）
@@ -30,11 +33,13 @@
    - より構造化されたAPI設計
    - 自動的なコード生成
    - エラーハンドリングの標準化
+   - HTTP/2ベースで既存インフラとの親和性
 
 3. **REST APIとの比較**
    - リアルタイムストリーミングの優位性
    - 双方向通信のサポート
    - 帯域幅の効率的な使用
+   - スキーマファーストな開発
 
 ## アーキテクチャの決定事項
 
@@ -105,6 +110,7 @@
 - Protocol Buffers による自動型生成
 - TypeScript の strict mode
 - 型推論の最大活用
+- @bufbuild/protobuf v2 の新しい型システム
 
 **デバッグ機能**：
 - ストリーミングデータのログ出力
@@ -178,4 +184,52 @@ interface TenantContext {
 }
 ```
 
-これらの決定事項により、学習に最適化されつつ、実運用への移行も視野に入れた設計となっています。
+## v2 への移行について
+
+### @bufbuild/protobuf v2 の採用理由
+
+1. **よりシンプルなAPI**
+   - クラスベースからファンクションベースへ
+   - `create()` 関数による統一的なメッセージ生成
+   - より直感的なスキーマアクセス
+
+2. **パフォーマンスの向上**
+   - より効率的なシリアライゼーション
+   - メモリ使用量の削減
+   - バンドルサイズの最適化
+
+3. **開発体験の改善**
+   - buf.gen.yaml の簡素化（connect-es プラグイン不要）
+   - より良いTypeScript統合
+   - エラーメッセージの改善
+
+### 移行時の主な変更点
+
+1. **インポートパスの変更**
+   ```typescript
+   // v1
+   import { ServiceName } from "./service_connect";
+   
+   // v2
+   import { ServiceName } from "./service_pb";
+   ```
+
+2. **タイムスタンプの扱い**
+   ```typescript
+   // v1
+   import { Timestamp } from "@bufbuild/protobuf";
+   
+   // v2
+   import { timestampDate, timestampNow } from "@bufbuild/protobuf/wkt";
+   ```
+
+3. **メッセージの作成**
+   ```typescript
+   // v1
+   const message = new MessageType();
+   
+   // v2
+   const message = create(MessageSchema, {});
+   ```
+
+これらの決定事項により、学習に最適化されつつ、実運用への移行も視野に入れた設計となっています。v2への移行により、より現代的でパフォーマンスの高いシステムが実現されています。
