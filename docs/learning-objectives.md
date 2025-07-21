@@ -8,12 +8,14 @@
 ## React Router v7 (Framework Mode)
 
 ### 1. 基本概念
+
 - **Framework Mode** の理解
 - **File-based routing** の実装
 - **Nested routes** の活用
 - **Route loaders** によるデータフェッチ
 
 ### 2. 高度な機能
+
 - **並列データローディング**
   - 複数のデータソースから同時にデータ取得
   - ローディング状態の統合管理
@@ -27,6 +29,7 @@
   - ブラウザバック/フォワードへの対応
 
 ### 3. パフォーマンス最適化
+
 - **Code splitting** の自動化
 - **Prefetching** によるナビゲーション高速化
 - **Optimistic UI** の実装パターン
@@ -34,7 +37,9 @@
 ## connect-web v2 ストリーミング
 
 ### 1. Server Streaming RPC
+
 - **実装パターン**
+
   ```typescript
   // 継続的なデータ受信
   for await (const data of stream) {
@@ -49,6 +54,7 @@
   - AbortControllerによるキャンセル処理
 
 ### 2. Bidirectional Streaming RPC
+
 - **双方向通信の実装**
   - クライアントからのリクエスト送信
   - サーバーからのレスポンス受信
@@ -60,6 +66,7 @@
   - 動的な設定変更
 
 ### 3. エラーハンドリングとリトライ
+
 - **接続エラーの処理**
   - ネットワーク断絶への対応
   - 自動リトライ機構
@@ -72,7 +79,9 @@
 ## 統合パターン
 
 ### 1. React Router + connect-web
+
 - **ルートローダーでの初期データ取得**
+
   ```typescript
   export const loader = async () => {
     // Unary RPCで初期データ取得
@@ -91,6 +100,7 @@
   ```
 
 ### 2. 状態管理パターン
+
 - **ストリーミングデータの状態管理**
   - Reactの状態としての管理
   - データの累積と破棄
@@ -101,6 +111,7 @@
   - ディープリンクへの対応
 
 ### 3. エラー境界の統合
+
 - **ルートレベルのエラー処理**
 - **ストリーミングエラーの伝播**
 - **ユーザーフレンドリーなエラー表示**
@@ -108,7 +119,9 @@
 ## @bufbuild/protobuf v2 の新機能
 
 ### 1. シンプル化されたAPI
+
 - **関数ベースのAPI設計**
+
   ```typescript
   // v2の新しいメッセージ作成
   const message = create(MessageSchema, { field: value });
@@ -119,9 +132,11 @@
   - 型推論の向上
 
 ### 2. Well-Known Typesの扱い
+
 - **タイムスタンプ操作**
+
   ```typescript
-  import { timestampNow, timestampDate } from "@bufbuild/protobuf/wkt";
+  import { timestampNow, timestampDate } from '@bufbuild/protobuf/wkt';
   ```
 
 - **JSONシリアライゼーション**
@@ -130,6 +145,7 @@
   ```
 
 ### 3. パフォーマンス最適化
+
 - **バンドルサイズの削減**
 - **ランタイムパフォーマンスの向上**
 - **Tree-shakingの改善**
@@ -137,16 +153,19 @@
 ## 実践的な学習成果
 
 ### 1. リアルタイムアプリケーションの構築
+
 - WebSocketの代替としてのgRPCストリーミング
 - 効率的なデータ転送（Protocol Buffers）
 - 型安全なAPI通信
 
 ### 2. モダンなReactアプリケーション設計
+
 - Framework Modeによる開発体験の向上
 - ファイルベースルーティングの活用
 - 宣言的なデータフェッチング
 
 ### 3. プロダクション対応の考慮
+
 - エラーハンドリング
 - パフォーマンス最適化
 - スケーラビリティ

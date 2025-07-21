@@ -2,15 +2,11 @@
 // @generated from file monitoring/v1/metrics.proto (package monitoring.v1, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenEnum,
-  GenFile,
-  GenMessage,
-} from "@bufbuild/protobuf/codegenv1";
-import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
-import type { Message } from "@bufbuild/protobuf";
+import type { GenEnum, GenFile, GenMessage } from '@bufbuild/protobuf/codegenv1';
+import { enumDesc, fileDesc, messageDesc } from '@bufbuild/protobuf/codegenv1';
+import type { Timestamp } from '@bufbuild/protobuf/wkt';
+import { file_google_protobuf_timestamp } from '@bufbuild/protobuf/wkt';
+import type { Message } from '@bufbuild/protobuf';
 
 /**
  * Describes the file monitoring/v1/metrics.proto.
@@ -18,8 +14,8 @@ import type { Message } from "@bufbuild/protobuf";
 export const file_monitoring_v1_metrics: GenFile =
   /*@__PURE__*/
   fileDesc(
-    "Chttb25pdG9yaW5nL3YxL21ldHJpY3MucHJvdG8SDW1vbml0b3JpbmcudjEi3wEKCk1ldHJpY0RhdGESCgoCaWQYASABKAkSEwoLbWV0cmljX3R5cGUYAiABKAkSDQoFdmFsdWUYAyABKAESLQoJdGltZXN0YW1wGAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBI1CgZsYWJlbHMYBSADKAsyJS5tb25pdG9yaW5nLnYxLk1ldHJpY0RhdGEuTGFiZWxzRW50cnkSDAoEdW5pdBgGIAEoCRotCgtMYWJlbHNFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBIrgBCg1NZXRyaWNTdW1tYXJ5EhMKC21ldHJpY190eXBlGAEgASgJEgsKA21pbhgCIAEoARILCgNtYXgYAyABKAESCwoDYXZnGAQgASgBEg0KBWNvdW50GAUgASgDEi4KCnN0YXJ0X3RpbWUYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiwKCGVuZF90aW1lGAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCrqAQoKTWV0cmljVHlwZRIbChdNRVRSSUNfVFlQRV9VTlNQRUNJRklFRBAAEhkKFU1FVFJJQ19UWVBFX0NQVV9VU0FHRRABEhwKGE1FVFJJQ19UWVBFX01FTU9SWV9VU0FHRRACEhcKE01FVFJJQ19UWVBFX0RJU0tfSU8QAxIaChZNRVRSSUNfVFlQRV9ORVRXT1JLX0lPEAQSHAoYTUVUUklDX1RZUEVfUkVRVUVTVF9SQVRFEAUSGgoWTUVUUklDX1RZUEVfRVJST1JfUkFURRAGEhcKE01FVFJJQ19UWVBFX0xBVEVOQ1kQB0J2ChFjb20ubW9uaXRvcmluZy52MUIMTWV0cmljc1Byb3RvUAGiAgNNWFiqAg1Nb25pdG9yaW5nLlYxygINTW9uaXRvcmluZ1xWMeICGU1vbml0b3JpbmdcVjFcR1BCTWV0YWRhdGHqAg5Nb25pdG9yaW5nOjpWMWIGcHJvdG8z",
-    [file_google_protobuf_timestamp]
+    'Chttb25pdG9yaW5nL3YxL21ldHJpY3MucHJvdG8SDW1vbml0b3JpbmcudjEi3wEKCk1ldHJpY0RhdGESCgoCaWQYASABKAkSEwoLbWV0cmljX3R5cGUYAiABKAkSDQoFdmFsdWUYAyABKAESLQoJdGltZXN0YW1wGAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBI1CgZsYWJlbHMYBSADKAsyJS5tb25pdG9yaW5nLnYxLk1ldHJpY0RhdGEuTGFiZWxzRW50cnkSDAoEdW5pdBgGIAEoCRotCgtMYWJlbHNFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBIrgBCg1NZXRyaWNTdW1tYXJ5EhMKC21ldHJpY190eXBlGAEgASgJEgsKA21pbhgCIAEoARILCgNtYXgYAyABKAESCwoDYXZnGAQgASgBEg0KBWNvdW50GAUgASgDEi4KCnN0YXJ0X3RpbWUYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiwKCGVuZF90aW1lGAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCrqAQoKTWV0cmljVHlwZRIbChdNRVRSSUNfVFlQRV9VTlNQRUNJRklFRBAAEhkKFU1FVFJJQ19UWVBFX0NQVV9VU0FHRRABEhwKGE1FVFJJQ19UWVBFX01FTU9SWV9VU0FHRRACEhcKE01FVFJJQ19UWVBFX0RJU0tfSU8QAxIaChZNRVRSSUNfVFlQRV9ORVRXT1JLX0lPEAQSHAoYTUVUUklDX1RZUEVfUkVRVUVTVF9SQVRFEAUSGgoWTUVUUklDX1RZUEVfRVJST1JfUkFURRAGEhcKE01FVFJJQ19UWVBFX0xBVEVOQ1kQB0J2ChFjb20ubW9uaXRvcmluZy52MUIMTWV0cmljc1Byb3RvUAGiAgNNWFiqAg1Nb25pdG9yaW5nLlYxygINTW9uaXRvcmluZ1xWMeICGU1vbml0b3JpbmdcVjFcR1BCTWV0YWRhdGHqAg5Nb25pdG9yaW5nOjpWMWIGcHJvdG8z',
+    [file_google_protobuf_timestamp],
   );
 
 /**
@@ -27,7 +23,7 @@ export const file_monitoring_v1_metrics: GenFile =
  *
  * @generated from message monitoring.v1.MetricData
  */
-export type MetricData = Message<"monitoring.v1.MetricData"> & {
+export type MetricData = Message<'monitoring.v1.MetricData'> & {
   /**
    * @generated from field: string id = 1;
    */
@@ -72,7 +68,7 @@ export const MetricDataSchema: GenMessage<MetricData> =
  *
  * @generated from message monitoring.v1.MetricSummary
  */
-export type MetricSummary = Message<"monitoring.v1.MetricSummary"> & {
+export type MetricSummary = Message<'monitoring.v1.MetricSummary'> & {
   /**
    * @generated from field: string metric_type = 1;
    */

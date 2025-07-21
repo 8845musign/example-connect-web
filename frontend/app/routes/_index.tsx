@@ -1,10 +1,10 @@
-import type { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import type { MetaFunction } from '@remix-run/node';
+import { Link } from '@remix-run/react';
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "リアルタイムモニタリングダッシュボード" },
-    { name: "description", content: "Connect-web ストリーミングデモ" },
+    { title: 'リアルタイムモニタリングダッシュボード' },
+    { name: 'description', content: 'Connect-web ストリーミングデモ' },
   ];
 };
 
@@ -13,7 +13,7 @@ export default function Index() {
     <div className="container">
       <h1>リアルタイムモニタリングダッシュボード</h1>
       <p>Connect-webとReact Router v7を使用したストリーミングデモです。</p>
-      
+
       <nav className="dashboard-nav">
         <h2>ダッシュボード</h2>
         <ul>

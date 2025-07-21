@@ -40,7 +40,14 @@ export class LogsGenerator {
     ],
   };
 
-  private sources = ['api-server', 'auth-service', 'database', 'cache-layer', 'worker', 'scheduler'];
+  private sources = [
+    'api-server',
+    'auth-service',
+    'database',
+    'cache-layer',
+    'worker',
+    'scheduler',
+  ];
   private traceIdCounter = 0;
 
   generateLog(): LogEntry {
@@ -48,7 +55,7 @@ export class LogsGenerator {
     const source = this.sources[Math.floor(Math.random() * this.sources.length)];
     const templates = this.logTemplates[level];
     const template = templates[Math.floor(Math.random() * templates.length)];
-    
+
     const message = this.fillTemplate(template);
     const traceId = Math.random() < 0.7 ? `trace-${++this.traceIdCounter}` : '';
     const spanId = traceId ? `span-${Math.random().toString(36).slice(2, 11)}` : '';
@@ -82,15 +89,15 @@ export class LogsGenerator {
   generateHistoricalLogs(count: number): LogEntry[] {
     const logs: LogEntry[] = [];
     const now = Date.now();
-    
+
     for (let i = 0; i < count; i++) {
       const log = this.generateLog();
       // 過去1時間のログを生成
-      const pastTime = now - (3600000 - (i * 72000 / count));
+      const pastTime = now - (3600000 - (i * 72000) / count);
       log.timestamp = timestampFromDate(new Date(pastTime));
       logs.push(log);
     }
-    
+
     return logs;
   }
 
@@ -116,9 +123,7 @@ export class LogsGenerator {
       ],
       duration: Math.floor(Math.random() * 5000).toString(),
       query: 'SELECT * FROM users WHERE last_login < ?',
-      service: ['redis', 'postgres', 'elasticsearch', 'rabbitmq'][
-        Math.floor(Math.random() * 4)
-      ],
+      service: ['redis', 'postgres', 'elasticsearch', 'rabbitmq'][Math.floor(Math.random() * 4)],
       error: [
         'Connection refused',
         'Timeout exceeded',

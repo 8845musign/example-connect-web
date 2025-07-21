@@ -1,6 +1,6 @@
-import type { MetricSummary } from "~/lib/proto/monitoring/v1/metrics_pb";
-import { timestampDate } from "@bufbuild/protobuf/wkt";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
+import type { MetricSummary } from '~/lib/proto/monitoring/v1/metrics_pb';
+import { timestampDate } from '@bufbuild/protobuf/wkt';
+import type { Timestamp } from '@bufbuild/protobuf/wkt';
 
 interface MetricsSummaryProps {
   summary: MetricSummary | null;
@@ -32,15 +32,21 @@ export function MetricsSummary({ summary, unit }: MetricsSummaryProps) {
       <div className="summary-grid">
         <div className="summary-item">
           <span className="label">最小値</span>
-          <span className="value">{summary.min.toFixed(2)} {unit}</span>
+          <span className="value">
+            {summary.min.toFixed(2)} {unit}
+          </span>
         </div>
         <div className="summary-item">
           <span className="label">最大値</span>
-          <span className="value">{summary.max.toFixed(2)} {unit}</span>
+          <span className="value">
+            {summary.max.toFixed(2)} {unit}
+          </span>
         </div>
         <div className="summary-item">
           <span className="label">平均値</span>
-          <span className="value">{summary.avg.toFixed(2)} {unit}</span>
+          <span className="value">
+            {summary.avg.toFixed(2)} {unit}
+          </span>
         </div>
         <div className="summary-item">
           <span className="label">データポイント数</span>

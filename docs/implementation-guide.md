@@ -26,9 +26,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const summary = await monitoringClient.getMetricSummary({
     metricType: params.type,
     startTime: getStartTime(),
-    endTime: new Date()
+    endTime: new Date(),
   });
-  
+
   return { summary };
 };
 
@@ -36,25 +36,25 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 export default function MetricDetail() {
   const { summary } = useLoaderData<typeof loader>();
   const [metrics, setMetrics] = useState<MetricData[]>([]);
-  
+
   useEffect(() => {
     // ストリーミング接続の確立（v2 API）
     const stream = monitoringClient.streamMetrics({
       metricTypes: [params.type],
-      intervalMs: 1000
+      intervalMs: 1000,
     });
-    
+
     // async iteratorを使用したデータ受信
     (async () => {
       try {
         for await (const metric of stream) {
-          setMetrics(prev => [...prev.slice(-100), metric]);
+          setMetrics((prev) => [...prev.slice(-100), metric]);
         }
       } catch (err) {
         console.error('Stream error:', err);
       }
     })();
-    
+
     // クリーンアップでストリームをキャンセル
     return () => {
       // AbortControllerを使用してキャンセル
@@ -69,11 +69,11 @@ export default function MetricDetail() {
 // app/routes/metrics.tsx
 export function ErrorBoundary() {
   const error = useRouteError();
-  
+
   if (isRouteErrorResponse(error)) {
     return <div>接続エラー: {error.status}</div>;
   }
-  
+
   return <div>予期しないエラーが発生しました</div>;
 }
 ```
@@ -84,12 +84,12 @@ export function ErrorBoundary() {
 
 ```typescript
 // app/lib/client.ts
-import { createClient } from "@connectrpc/connect";
-import { createConnectTransport } from "@connectrpc/connect-web";
-import { MonitoringService } from "./proto/monitoring/v1/service_pb"; // v2では_pb.tsを使用
+import { createClient } from '@connectrpc/connect';
+import { createConnectTransport } from '@connectrpc/connect-web';
+import { MonitoringService } from './proto/monitoring/v1/service_pb'; // v2では_pb.tsを使用
 
 const transport = createConnectTransport({
-  baseUrl: "http://localhost:8080",
+  baseUrl: 'http://localhost:8080',
   // v2でのストリーミング設定
   interceptors: [],
 });
@@ -108,7 +108,7 @@ export function useMetricsStream(metricTypes: string[]) {
 
   useEffect(() => {
     const abortController = new AbortController();
-    
+
     async function startStream() {
       try {
         const stream = monitoringClient.streamMetrics(
@@ -116,13 +116,13 @@ export function useMetricsStream(metricTypes: string[]) {
             metricTypes,
             intervalMs: 1000,
           },
-          { signal: abortController.signal }
+          { signal: abortController.signal },
         );
 
         setLoading(false);
 
         for await (const metric of stream) {
-          setData(prev => {
+          setData((prev) => {
             const updated = [...prev, metric];
             // 最新100件のみ保持（メモリ管理）
             return updated.slice(-100);
@@ -163,7 +163,7 @@ export function useInteractiveQuery() {
     // レスポンス処理
     (async () => {
       for await (const response of stream.responses) {
-        setData(prev => [...prev, response]);
+        setData((prev) => [...prev, response]);
       }
     })();
   }, []);
@@ -172,9 +172,9 @@ export function useInteractiveQuery() {
     if (streamRef.current) {
       await streamRef.current.write({
         query: {
-          case: "updateMetricsFilter",
-          value: filter
-        }
+          case: 'updateMetricsFilter',
+          value: filter,
+        },
       });
     }
   }, []);
@@ -183,9 +183,9 @@ export function useInteractiveQuery() {
     if (streamRef.current) {
       await streamRef.current.write({
         query: {
-          case: "pauseResume",
-          value: { paused }
-        }
+          case: 'pauseResume',
+          value: { paused },
+        },
       });
     }
   }, []);
@@ -214,7 +214,7 @@ export const MetricsChart = memo(({ data }: { data: MetricData[] }) => {
 // app/components/LogViewer.tsx
 export function LogViewer() {
   const { logs } = useLogsStream();
-  
+
   return (
     <VirtualizedList
       items={logs}
@@ -232,7 +232,7 @@ export function LogViewer() {
 export function FilterControls({ onFilterChange }) {
   // デバウンスを使用して過度なフィルター更新を防止
   const debouncedChange = useDebouncedCallback(onFilterChange, 300);
-  
+
   return (
     <div>
       {/* フィルターUI */}
@@ -247,24 +247,20 @@ export function FilterControls({ onFilterChange }) {
 
 ```typescript
 // app/lib/retry.ts
-export async function withRetry<T>(
-  fn: () => Promise<T>,
-  maxRetries = 3,
-  delay = 1000
-): Promise<T> {
+export async function withRetry<T>(fn: () => Promise<T>, maxRetries = 3, delay = 1000): Promise<T> {
   let lastError: Error;
-  
+
   for (let i = 0; i < maxRetries; i++) {
     try {
       return await fn();
     } catch (error) {
       lastError = error as Error;
       if (i < maxRetries - 1) {
-        await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
+        await new Promise((resolve) => setTimeout(resolve, delay * (i + 1)));
       }
     }
   }
-  
+
   throw lastError!;
 }
 ```
@@ -275,7 +271,7 @@ export async function withRetry<T>(
 // app/hooks/useConnectionStatus.ts
 export function useConnectionStatus() {
   const [status, setStatus] = useState<'connected' | 'disconnected' | 'error'>('disconnected');
-  
+
   // 接続状態の監視とUIへのフィードバック
   return { status, retry: () => {} };
 }
@@ -286,6 +282,7 @@ export function useConnectionStatus() {
 ### 1. Protocol Buffers コード生成の変更
 
 **buf.gen.yaml の更新**：
+
 ```yaml
 # v1
 version: v1
@@ -306,7 +303,7 @@ managed:
 plugins:
   - remote: buf.build/bufbuild/es:v2.2.0
     out: backend/src/proto/gen
-    opt: 
+    opt:
       - target=ts
       - import_extension=js
 ```
@@ -315,13 +312,13 @@ plugins:
 
 ```typescript
 // v1
-import { MetricSummary } from "./metrics_pb";
+import { MetricSummary } from './metrics_pb';
 const summary = new MetricSummary();
 summary.min = 10;
 
 // v2
-import { create } from "@bufbuild/protobuf";
-import { MetricSummarySchema } from "./metrics_pb";
+import { create } from '@bufbuild/protobuf';
+import { MetricSummarySchema } from './metrics_pb';
 const summary = create(MetricSummarySchema, {
   min: 10,
 });
@@ -331,12 +328,12 @@ const summary = create(MetricSummarySchema, {
 
 ```typescript
 // v1
-import { Timestamp } from "@bufbuild/protobuf";
+import { Timestamp } from '@bufbuild/protobuf';
 const ts = new Timestamp();
 ts.toDate();
 
 // v2
-import { timestampNow, timestampDate, timestampFromDate } from "@bufbuild/protobuf/wkt";
+import { timestampNow, timestampDate, timestampFromDate } from '@bufbuild/protobuf/wkt';
 const ts = timestampNow();
 const date = timestampDate(ts);
 const tsFromDate = timestampFromDate(new Date());
@@ -346,8 +343,8 @@ const tsFromDate = timestampFromDate(new Date());
 
 ```typescript
 // v2ではtoJsonを使用してBigIntを含むメッセージを安全にJSON化
-import { toJson } from "@bufbuild/protobuf";
-import { GetMetricSummaryResponseSchema } from "./service_pb";
+import { toJson } from '@bufbuild/protobuf';
+import { GetMetricSummaryResponseSchema } from './service_pb';
 
 const jsonResponse = toJson(GetMetricSummaryResponseSchema, response);
 return json({ summary: jsonResponse.summary });

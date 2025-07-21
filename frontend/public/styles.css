@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: #f5f7fa;
   color: #2c3e50;
   line-height: 1.6;
@@ -18,7 +18,9 @@ body {
   padding: 2rem;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin-bottom: 1rem;
 }
 
@@ -342,7 +344,7 @@ button {
   gap: 0.5rem;
 }
 
-.control-group input[type="text"] {
+.control-group input[type='text'] {
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;

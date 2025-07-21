@@ -1,15 +1,8 @@
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import type { LinksFunction } from '@remix-run/node';
+import React from 'react';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: "/styles.css" },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: '/styles.css' }];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

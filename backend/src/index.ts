@@ -8,10 +8,12 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // CORS設定
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  }),
+);
 
 // Connect-RPCミドルウェア
 app.use(
@@ -19,7 +21,7 @@ app.use(
     routes: (router) => {
       router.service(MonitoringService, new MonitoringServiceImpl());
     },
-  })
+  }),
 );
 
 app.listen(PORT, () => {

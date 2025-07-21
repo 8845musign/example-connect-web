@@ -4,11 +4,11 @@ managed:
 plugins:
   - remote: buf.build/bufbuild/es:v2.2.0
     out: backend/src/proto/gen
-    opt: 
+    opt:
       - target=ts
       - import_extension=js
   - remote: buf.build/bufbuild/es:v2.2.0
     out: frontend/app/lib/proto
-    opt: 
+    opt:
       - target=ts
       - import_extension=js

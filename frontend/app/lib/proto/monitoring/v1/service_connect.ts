@@ -3,10 +3,17 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { GetMetricSummaryRequest, GetMetricSummaryResponse, QueryRequest, QueryResponse, StreamLogsRequest, StreamMetricsRequest } from "./service_pb.js";
-import { MethodKind } from "@bufbuild/protobuf";
-import { MetricData } from "./metrics_pb.js";
-import { LogEntry } from "./logs_pb.js";
+import {
+  GetMetricSummaryRequest,
+  GetMetricSummaryResponse,
+  QueryRequest,
+  QueryResponse,
+  StreamLogsRequest,
+  StreamMetricsRequest,
+} from './service_pb.js';
+import { MethodKind } from '@bufbuild/protobuf';
+import { MetricData } from './metrics_pb.js';
+import { LogEntry } from './logs_pb.js';
 
 /**
  * モニタリングサービス
@@ -14,7 +21,7 @@ import { LogEntry } from "./logs_pb.js";
  * @generated from service monitoring.v1.MonitoringService
  */
 export const MonitoringService = {
-  typeName: "monitoring.v1.MonitoringService",
+  typeName: 'monitoring.v1.MonitoringService',
   methods: {
     /**
      * Unary RPC: メトリクスサマリーの取得
@@ -22,7 +29,7 @@ export const MonitoringService = {
      * @generated from rpc monitoring.v1.MonitoringService.GetMetricSummary
      */
     getMetricSummary: {
-      name: "GetMetricSummary",
+      name: 'GetMetricSummary',
       I: GetMetricSummaryRequest,
       O: GetMetricSummaryResponse,
       kind: MethodKind.Unary,
@@ -33,7 +40,7 @@ export const MonitoringService = {
      * @generated from rpc monitoring.v1.MonitoringService.StreamMetrics
      */
     streamMetrics: {
-      name: "StreamMetrics",
+      name: 'StreamMetrics',
       I: StreamMetricsRequest,
       O: MetricData,
       kind: MethodKind.ServerStreaming,
@@ -44,7 +51,7 @@ export const MonitoringService = {
      * @generated from rpc monitoring.v1.MonitoringService.StreamLogs
      */
     streamLogs: {
-      name: "StreamLogs",
+      name: 'StreamLogs',
       I: StreamLogsRequest,
       O: LogEntry,
       kind: MethodKind.ServerStreaming,
@@ -55,11 +62,10 @@ export const MonitoringService = {
      * @generated from rpc monitoring.v1.MonitoringService.InteractiveQuery
      */
     interactiveQuery: {
-      name: "InteractiveQuery",
+      name: 'InteractiveQuery',
       I: QueryRequest,
       O: QueryResponse,
       kind: MethodKind.BiDiStreaming,
     },
-  }
+  },
 } as const;
-

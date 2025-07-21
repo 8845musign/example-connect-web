@@ -1,8 +1,8 @@
-import { useState, useRef, useCallback } from "react";
-import { Link } from "@remix-run/react";
-import { monitoringClient } from "~/lib/client";
-import type { QueryResponse } from "~/lib/proto/monitoring/v1/service_pb";
-import { timestampDate } from "@bufbuild/protobuf/wkt";
+import { useState, useRef, useCallback } from 'react';
+import { Link } from '@remix-run/react';
+import { monitoringClient } from '~/lib/client';
+import type { QueryResponse } from '~/lib/proto/monitoring/v1/service_pb';
+import { timestampDate } from '@bufbuild/protobuf/wkt';
 
 export default function InteractivePage() {
   const [responses, setResponses] = useState<QueryResponse[]>([]);
@@ -20,7 +20,7 @@ export default function InteractivePage() {
       // 初期フィルター設定
       await stream.send({
         query: {
-          case: "updateMetricsFilter" as const,
+          case: 'updateMetricsFilter' as const,
           value: {
             metricTypes: selectedMetrics,
             labelFilters: {},
@@ -32,7 +32,7 @@ export default function InteractivePage() {
       (async () => {
         try {
           for await (const response of stream) {
-            setResponses(prev => {
+            setResponses((prev) => {
               const updated = [...prev, response];
               return updated.slice(-100); // 最新100件のみ保持
             });
@@ -57,27 +57,30 @@ export default function InteractivePage() {
     setIsPaused(false);
   }, []);
 
-  const updateMetricsFilter = useCallback(async (metrics: string[]) => {
-    if (streamRef.current && isConnected) {
-      await streamRef.current.send({
-        query: {
-          case: "updateMetricsFilter" as const,
-          value: {
-            metricTypes: metrics,
-            labelFilters: {},
+  const updateMetricsFilter = useCallback(
+    async (metrics: string[]) => {
+      if (streamRef.current && isConnected) {
+        await streamRef.current.send({
+          query: {
+            case: 'updateMetricsFilter' as const,
+            value: {
+              metricTypes: metrics,
+              labelFilters: {},
+            },
           },
-        },
-      });
-      setSelectedMetrics(metrics);
-    }
-  }, [isConnected]);
+        });
+        setSelectedMetrics(metrics);
+      }
+    },
+    [isConnected],
+  );
 
   const togglePause = useCallback(async () => {
     if (streamRef.current && isConnected) {
       const newPaused = !isPaused;
       await streamRef.current.send({
         query: {
-          case: "pauseResume" as const,
+          case: 'pauseResume' as const,
           value: {
             paused: newPaused,
           },
@@ -92,7 +95,9 @@ export default function InteractivePage() {
       return (
         <div key={index} className="response-item status-update">
           <span className="timestamp">
-            {response.response.value.timestamp ? timestampDate(response.response.value.timestamp).toLocaleTimeString('ja-JP') : ''}
+            {response.response.value.timestamp
+              ? timestampDate(response.response.value.timestamp).toLocaleTimeString('ja-JP')
+              : ''}
           </span>
           <span className="message">{response.response.value.message}</span>
         </div>
@@ -107,9 +112,13 @@ export default function InteractivePage() {
             {metric.timestamp ? timestampDate(metric.timestamp).toLocaleTimeString('ja-JP') : ''}
           </span>
           <span className="metric-type">[{metric.metricType}]</span>
-          <span className="value">{metric.value.toFixed(2)} {metric.unit}</span>
+          <span className="value">
+            {metric.value.toFixed(2)} {metric.unit}
+          </span>
           <span className="labels">
-            {Object.entries(metric.labels).map(([k, v]) => `${k}:${v}`).join(', ')}
+            {Object.entries(metric.labels)
+              .map(([k, v]) => `${k}:${v}`)
+              .join(', ')}
           </span>
         </div>
       );
@@ -136,7 +145,9 @@ export default function InteractivePage() {
     <div className="interactive-page">
       <header>
         <h1>インタラクティブクエリ</h1>
-        <Link to="/" className="back-link">← ダッシュボードに戻る</Link>
+        <Link to="/" className="back-link">
+          ← ダッシュボードに戻る
+        </Link>
       </header>
 
       <div className="interactive-controls">
@@ -161,7 +172,15 @@ export default function InteractivePage() {
         <div className="filter-controls">
           <h3>メトリクスフィルター</h3>
           <div className="metrics-checkboxes">
-            {['cpu_usage', 'memory_usage', 'network_io', 'disk_io', 'request_rate', 'error_rate', 'latency'].map(metric => (
+            {[
+              'cpu_usage',
+              'memory_usage',
+              'network_io',
+              'disk_io',
+              'request_rate',
+              'error_rate',
+              'latency',
+            ].map((metric) => (
               <label key={metric}>
                 <input
                   type="checkbox"
@@ -169,7 +188,7 @@ export default function InteractivePage() {
                   onChange={(e) => {
                     const newMetrics = e.target.checked
                       ? [...selectedMetrics, metric]
-                      : selectedMetrics.filter(m => m !== metric);
+                      : selectedMetrics.filter((m) => m !== metric);
                     updateMetricsFilter(newMetrics);
                   }}
                   disabled={!isConnected}

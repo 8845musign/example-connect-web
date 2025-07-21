@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import { Link } from "@remix-run/react";
-import { monitoringClient } from "~/lib/client";
-import type { LogEntry, LogLevel } from "~/lib/proto/monitoring/v1/logs_pb";
-import { timestampDate } from "@bufbuild/protobuf/wkt";
+import { useState, useEffect, useRef } from 'react';
+import { Link } from '@remix-run/react';
+import { monitoringClient } from '~/lib/client';
+import type { LogEntry, LogLevel } from '~/lib/proto/monitoring/v1/logs_pb';
+import { timestampDate } from '@bufbuild/protobuf/wkt';
 
 export default function LogsPage() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -36,13 +36,13 @@ export default function LogsPage() {
           },
           tail: filter.tail,
         },
-        { signal: abortController.signal }
+        { signal: abortController.signal },
       );
 
       for await (const log of stream) {
         if (abortController.signal.aborted) break;
-        
-        setLogs(prev => {
+
+        setLogs((prev) => {
           const updated = [...prev, log];
           // 最新500件のみ保持
           return updated.slice(-500);
@@ -92,19 +92,23 @@ export default function LogsPage() {
     <div className="logs-page">
       <header>
         <h1>ログビューア</h1>
-        <Link to="/" className="back-link">← ダッシュボードに戻る</Link>
+        <Link to="/" className="back-link">
+          ← ダッシュボードに戻る
+        </Link>
       </header>
 
       <div className="logs-controls">
         <div className="control-group">
           <label>
             ログレベル:
-            <select 
-              multiple 
+            <select
+              multiple
               value={filter.levels.map(String)}
               onChange={(e) => {
-                const selected = Array.from(e.target.selectedOptions, option => Number(option.value));
-                setFilter(prev => ({ ...prev, levels: selected }));
+                const selected = Array.from(e.target.selectedOptions, (option) =>
+                  Number(option.value),
+                );
+                setFilter((prev) => ({ ...prev, levels: selected }));
               }}
             >
               <option value="1">DEBUG</option>
@@ -122,7 +126,7 @@ export default function LogsPage() {
             <input
               type="text"
               value={filter.searchText}
-              onChange={(e) => setFilter(prev => ({ ...prev, searchText: e.target.value }))}
+              onChange={(e) => setFilter((prev) => ({ ...prev, searchText: e.target.value }))}
               placeholder="ログメッセージを検索..."
             />
           </label>
@@ -133,7 +137,7 @@ export default function LogsPage() {
             <input
               type="checkbox"
               checked={filter.tail}
-              onChange={(e) => setFilter(prev => ({ ...prev, tail: e.target.checked }))}
+              onChange={(e) => setFilter((prev) => ({ ...prev, tail: e.target.checked }))}
             />
             自動スクロール
           </label>
@@ -151,11 +155,7 @@ export default function LogsPage() {
           )}
         </div>
 
-        {error && (
-          <div className="error-message">
-            エラー: {error.message}
-          </div>
-        )}
+        {error && <div className="error-message">エラー: {error.message}</div>}
       </div>
 
       <div className="logs-container">
@@ -167,8 +167,8 @@ export default function LogsPage() {
           <div className="logs-list">
             {logs.map((log) => (
               <div key={log.id} className="log-entry" data-level={log.level}>
-                <span 
-                  className="log-level" 
+                <span
+                  className="log-level"
                   style={{ color: logLevelColors[log.level as keyof typeof logLevelColors] }}
                 >
                   [{logLevelNames[log.level as keyof typeof logLevelNames]}]
@@ -178,9 +178,7 @@ export default function LogsPage() {
                 </span>
                 <span className="log-source">[{log.source}]</span>
                 <span className="log-message">{log.message}</span>
-                {log.traceId && (
-                  <span className="log-trace">trace:{log.traceId}</span>
-                )}
+                {log.traceId && <span className="log-trace">trace:{log.traceId}</span>}
               </div>
             ))}
             <div ref={logsEndRef} />

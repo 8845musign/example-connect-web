@@ -10,6 +10,7 @@
 ## 技術スタック
 
 ### フロントエンド
+
 - **React 18**: UIライブラリ
 - **React Router v7 (Framework Mode)**: ルーティングフレームワーク
   - Server Componentは使用しない
@@ -21,6 +22,7 @@
 - **Vite**: ビルドツール
 
 ### バックエンド
+
 - **Node.js + TypeScript**: サーバーランタイム
 - **@connectrpc/connect-node v2**: gRPCサーバー実装
 - **Express**: HTTPサーバー

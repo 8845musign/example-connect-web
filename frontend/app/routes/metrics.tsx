@@ -1,8 +1,8 @@
-import { Outlet, Link, useLocation } from "@remix-run/react";
+import { Outlet, Link, useLocation } from '@remix-run/react';
 
 export default function MetricsLayout() {
   const location = useLocation();
-  
+
   const metricTypes = [
     { id: 'cpu_usage', name: 'CPU使用率', icon: '🖥️' },
     { id: 'memory_usage', name: 'メモリ使用率', icon: '💾' },
@@ -17,16 +17,18 @@ export default function MetricsLayout() {
     <div className="metrics-layout">
       <header>
         <h1>メトリクスモニター</h1>
-        <Link to="/" className="back-link">← ダッシュボードに戻る</Link>
+        <Link to="/" className="back-link">
+          ← ダッシュボードに戻る
+        </Link>
       </header>
-      
+
       <div className="metrics-container">
         <nav className="metrics-nav">
           <h2>メトリクスタイプ</h2>
           <ul>
-            {metricTypes.map(metric => (
+            {metricTypes.map((metric) => (
               <li key={metric.id}>
-                <Link 
+                <Link
                   to={`/metrics/${metric.id}`}
                   className={location.pathname === `/metrics/${metric.id}` ? 'active' : ''}
                 >
@@ -37,7 +39,7 @@ export default function MetricsLayout() {
             ))}
           </ul>
         </nav>
-        
+
         <main className="metrics-content">
           <Outlet />
         </main>

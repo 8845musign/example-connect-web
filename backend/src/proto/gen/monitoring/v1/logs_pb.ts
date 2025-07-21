@@ -2,24 +2,28 @@
 // @generated from file monitoring/v1/logs.proto (package monitoring.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
-import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
-import type { Message } from "@bufbuild/protobuf";
+import type { GenEnum, GenFile, GenMessage } from '@bufbuild/protobuf/codegenv1';
+import { enumDesc, fileDesc, messageDesc } from '@bufbuild/protobuf/codegenv1';
+import type { Timestamp } from '@bufbuild/protobuf/wkt';
+import { file_google_protobuf_timestamp } from '@bufbuild/protobuf/wkt';
+import type { Message } from '@bufbuild/protobuf';
 
 /**
  * Describes the file monitoring/v1/logs.proto.
  */
-export const file_monitoring_v1_logs: GenFile = /*@__PURE__*/
-  fileDesc("Chhtb25pdG9yaW5nL3YxL2xvZ3MucHJvdG8SDW1vbml0b3JpbmcudjEimwIKCExvZ0VudHJ5EgoKAmlkGAEgASgJEiYKBWxldmVsGAIgASgOMhcubW9uaXRvcmluZy52MS5Mb2dMZXZlbBIPCgdtZXNzYWdlGAMgASgJEi0KCXRpbWVzdGFtcBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDgoGc291cmNlGAUgASgJEjcKCG1ldGFkYXRhGAYgAygLMiUubW9uaXRvcmluZy52MS5Mb2dFbnRyeS5NZXRhZGF0YUVudHJ5EhAKCHRyYWNlX2lkGAcgASgJEg8KB3NwYW5faWQYCCABKAkaLwoNTWV0YWRhdGFFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBIrgBCglMb2dGaWx0ZXISJwoGbGV2ZWxzGAEgAygOMhcubW9uaXRvcmluZy52MS5Mb2dMZXZlbBIPCgdzb3VyY2VzGAIgAygJEhMKC3NlYXJjaF90ZXh0GAMgASgJEi4KCnN0YXJ0X3RpbWUYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiwKCGVuZF90aW1lGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCqMAQoITG9nTGV2ZWwSGQoVTE9HX0xFVkVMX1VOU1BFQ0lGSUVEEAASEwoPTE9HX0xFVkVMX0RFQlVHEAESEgoOTE9HX0xFVkVMX0lORk8QAhISCg5MT0dfTEVWRUxfV0FSThADEhMKD0xPR19MRVZFTF9FUlJPUhAEEhMKD0xPR19MRVZFTF9GQVRBTBAFQnMKEWNvbS5tb25pdG9yaW5nLnYxQglMb2dzUHJvdG9QAaICA01YWKoCDU1vbml0b3JpbmcuVjHKAg1Nb25pdG9yaW5nXFYx4gIZTW9uaXRvcmluZ1xWMVxHUEJNZXRhZGF0YeoCDk1vbml0b3Jpbmc6OlYxYgZwcm90bzM", [file_google_protobuf_timestamp]);
+export const file_monitoring_v1_logs: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    'Chhtb25pdG9yaW5nL3YxL2xvZ3MucHJvdG8SDW1vbml0b3JpbmcudjEimwIKCExvZ0VudHJ5EgoKAmlkGAEgASgJEiYKBWxldmVsGAIgASgOMhcubW9uaXRvcmluZy52MS5Mb2dMZXZlbBIPCgdtZXNzYWdlGAMgASgJEi0KCXRpbWVzdGFtcBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDgoGc291cmNlGAUgASgJEjcKCG1ldGFkYXRhGAYgAygLMiUubW9uaXRvcmluZy52MS5Mb2dFbnRyeS5NZXRhZGF0YUVudHJ5EhAKCHRyYWNlX2lkGAcgASgJEg8KB3NwYW5faWQYCCABKAkaLwoNTWV0YWRhdGFFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBIrgBCglMb2dGaWx0ZXISJwoGbGV2ZWxzGAEgAygOMhcubW9uaXRvcmluZy52MS5Mb2dMZXZlbBIPCgdzb3VyY2VzGAIgAygJEhMKC3NlYXJjaF90ZXh0GAMgASgJEi4KCnN0YXJ0X3RpbWUYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiwKCGVuZF90aW1lGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCqMAQoITG9nTGV2ZWwSGQoVTE9HX0xFVkVMX1VOU1BFQ0lGSUVEEAASEwoPTE9HX0xFVkVMX0RFQlVHEAESEgoOTE9HX0xFVkVMX0lORk8QAhISCg5MT0dfTEVWRUxfV0FSThADEhMKD0xPR19MRVZFTF9FUlJPUhAEEhMKD0xPR19MRVZFTF9GQVRBTBAFQnMKEWNvbS5tb25pdG9yaW5nLnYxQglMb2dzUHJvdG9QAaICA01YWKoCDU1vbml0b3JpbmcuVjHKAg1Nb25pdG9yaW5nXFYx4gIZTW9uaXRvcmluZ1xWMVxHUEJNZXRhZGF0YeoCDk1vbml0b3Jpbmc6OlYxYgZwcm90bzM',
+    [file_google_protobuf_timestamp],
+  );
 
 /**
  * ログエントリ
  *
  * @generated from message monitoring.v1.LogEntry
  */
-export type LogEntry = Message<"monitoring.v1.LogEntry"> & {
+export type LogEntry = Message<'monitoring.v1.LogEntry'> & {
   /**
    * @generated from field: string id = 1;
    */
@@ -65,7 +69,8 @@ export type LogEntry = Message<"monitoring.v1.LogEntry"> & {
  * Describes the message monitoring.v1.LogEntry.
  * Use `create(LogEntrySchema)` to create a new message.
  */
-export const LogEntrySchema: GenMessage<LogEntry> = /*@__PURE__*/
+export const LogEntrySchema: GenMessage<LogEntry> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_logs, 0);
 
 /**
@@ -73,7 +78,7 @@ export const LogEntrySchema: GenMessage<LogEntry> = /*@__PURE__*/
  *
  * @generated from message monitoring.v1.LogFilter
  */
-export type LogFilter = Message<"monitoring.v1.LogFilter"> & {
+export type LogFilter = Message<'monitoring.v1.LogFilter'> & {
   /**
    * @generated from field: repeated monitoring.v1.LogLevel levels = 1;
    */
@@ -104,7 +109,8 @@ export type LogFilter = Message<"monitoring.v1.LogFilter"> & {
  * Describes the message monitoring.v1.LogFilter.
  * Use `create(LogFilterSchema)` to create a new message.
  */
-export const LogFilterSchema: GenMessage<LogFilter> = /*@__PURE__*/
+export const LogFilterSchema: GenMessage<LogFilter> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_logs, 1);
 
 /**
@@ -147,6 +153,4 @@ export enum LogLevel {
 /**
  * Describes the enum monitoring.v1.LogLevel.
  */
-export const LogLevelSchema: GenEnum<LogLevel> = /*@__PURE__*/
-  enumDesc(file_monitoring_v1_logs, 0);
-
+export const LogLevelSchema: GenEnum<LogLevel> = /*@__PURE__*/ enumDesc(file_monitoring_v1_logs, 0);

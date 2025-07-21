@@ -2,28 +2,32 @@
 // @generated from file monitoring/v1/service.proto (package monitoring.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
-import type { MetricData, MetricDataSchema, MetricSummary } from "./metrics_pb.js";
-import { file_monitoring_v1_metrics } from "./metrics_pb.js";
-import type { LogEntry, LogEntrySchema, LogFilter } from "./logs_pb.js";
-import { file_monitoring_v1_logs } from "./logs_pb.js";
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
-import type { Message } from "@bufbuild/protobuf";
+import type { GenFile, GenMessage, GenService } from '@bufbuild/protobuf/codegenv1';
+import { fileDesc, messageDesc, serviceDesc } from '@bufbuild/protobuf/codegenv1';
+import type { MetricData, MetricDataSchema, MetricSummary } from './metrics_pb.js';
+import { file_monitoring_v1_metrics } from './metrics_pb.js';
+import type { LogEntry, LogEntrySchema, LogFilter } from './logs_pb.js';
+import { file_monitoring_v1_logs } from './logs_pb.js';
+import type { Timestamp } from '@bufbuild/protobuf/wkt';
+import { file_google_protobuf_timestamp } from '@bufbuild/protobuf/wkt';
+import type { Message } from '@bufbuild/protobuf';
 
 /**
  * Describes the file monitoring/v1/service.proto.
  */
-export const file_monitoring_v1_service: GenFile = /*@__PURE__*/
-  fileDesc("Chttb25pdG9yaW5nL3YxL3NlcnZpY2UucHJvdG8SDW1vbml0b3JpbmcudjEijAEKF0dldE1ldHJpY1N1bW1hcnlSZXF1ZXN0EhMKC21ldHJpY190eXBlGAEgASgJEi4KCnN0YXJ0X3RpbWUYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiwKCGVuZF90aW1lGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJJChhHZXRNZXRyaWNTdW1tYXJ5UmVzcG9uc2USLQoHc3VtbWFyeRgBIAEoCzIcLm1vbml0b3JpbmcudjEuTWV0cmljU3VtbWFyeSLEAQoUU3RyZWFtTWV0cmljc1JlcXVlc3QSFAoMbWV0cmljX3R5cGVzGAEgAygJEhMKC2ludGVydmFsX21zGAIgASgFEkwKDWxhYmVsX2ZpbHRlcnMYAyADKAsyNS5tb25pdG9yaW5nLnYxLlN0cmVhbU1ldHJpY3NSZXF1ZXN0LkxhYmVsRmlsdGVyc0VudHJ5GjMKEUxhYmVsRmlsdGVyc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAEiSwoRU3RyZWFtTG9nc1JlcXVlc3QSKAoGZmlsdGVyGAEgASgLMhgubW9uaXRvcmluZy52MS5Mb2dGaWx0ZXISDAoEdGFpbBgCIAEoCCLPAQoMUXVlcnlSZXF1ZXN0EkMKFXVwZGF0ZV9tZXRyaWNzX2ZpbHRlchgBIAEoCzIiLm1vbml0b3JpbmcudjEuVXBkYXRlTWV0cmljc0ZpbHRlckgAEj0KEnVwZGF0ZV9sb2dzX2ZpbHRlchgCIAEoCzIfLm1vbml0b3JpbmcudjEuVXBkYXRlTG9nc0ZpbHRlckgAEjIKDHBhdXNlX3Jlc3VtZRgDIAEoCzIaLm1vbml0b3JpbmcudjEuUGF1c2VSZXN1bWVIAEIHCgVxdWVyeSKtAQoTVXBkYXRlTWV0cmljc0ZpbHRlchIUCgxtZXRyaWNfdHlwZXMYASADKAkSSwoNbGFiZWxfZmlsdGVycxgCIAMoCzI0Lm1vbml0b3JpbmcudjEuVXBkYXRlTWV0cmljc0ZpbHRlci5MYWJlbEZpbHRlcnNFbnRyeRozChFMYWJlbEZpbHRlcnNFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBIjwKEFVwZGF0ZUxvZ3NGaWx0ZXISKAoGZmlsdGVyGAEgASgLMhgubW9uaXRvcmluZy52MS5Mb2dGaWx0ZXIiHQoLUGF1c2VSZXN1bWUSDgoGcGF1c2VkGAEgASgIIrEBCg1RdWVyeVJlc3BvbnNlEjAKC21ldHJpY19kYXRhGAEgASgLMhkubW9uaXRvcmluZy52MS5NZXRyaWNEYXRhSAASLAoJbG9nX2VudHJ5GAIgASgLMhcubW9uaXRvcmluZy52MS5Mb2dFbnRyeUgAEjQKDXN0YXR1c191cGRhdGUYAyABKAsyGy5tb25pdG9yaW5nLnYxLlN0YXR1c1VwZGF0ZUgAQgoKCHJlc3BvbnNlIk4KDFN0YXR1c1VwZGF0ZRIPCgdtZXNzYWdlGAEgASgJEi0KCXRpbWVzdGFtcBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAy6QIKEU1vbml0b3JpbmdTZXJ2aWNlEmMKEEdldE1ldHJpY1N1bW1hcnkSJi5tb25pdG9yaW5nLnYxLkdldE1ldHJpY1N1bW1hcnlSZXF1ZXN0GicubW9uaXRvcmluZy52MS5HZXRNZXRyaWNTdW1tYXJ5UmVzcG9uc2USUQoNU3RyZWFtTWV0cmljcxIjLm1vbml0b3JpbmcudjEuU3RyZWFtTWV0cmljc1JlcXVlc3QaGS5tb25pdG9yaW5nLnYxLk1ldHJpY0RhdGEwARJJCgpTdHJlYW1Mb2dzEiAubW9uaXRvcmluZy52MS5TdHJlYW1Mb2dzUmVxdWVzdBoXLm1vbml0b3JpbmcudjEuTG9nRW50cnkwARJRChBJbnRlcmFjdGl2ZVF1ZXJ5EhsubW9uaXRvcmluZy52MS5RdWVyeVJlcXVlc3QaHC5tb25pdG9yaW5nLnYxLlF1ZXJ5UmVzcG9uc2UoATABQnYKEWNvbS5tb25pdG9yaW5nLnYxQgxTZXJ2aWNlUHJvdG9QAaICA01YWKoCDU1vbml0b3JpbmcuVjHKAg1Nb25pdG9yaW5nXFYx4gIZTW9uaXRvcmluZ1xWMVxHUEJNZXRhZGF0YeoCDk1vbml0b3Jpbmc6OlYxYgZwcm90bzM", [file_monitoring_v1_metrics, file_monitoring_v1_logs, file_google_protobuf_timestamp]);
+export const file_monitoring_v1_service: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    'Chttb25pdG9yaW5nL3YxL3NlcnZpY2UucHJvdG8SDW1vbml0b3JpbmcudjEijAEKF0dldE1ldHJpY1N1bW1hcnlSZXF1ZXN0EhMKC21ldHJpY190eXBlGAEgASgJEi4KCnN0YXJ0X3RpbWUYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEiwKCGVuZF90aW1lGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJJChhHZXRNZXRyaWNTdW1tYXJ5UmVzcG9uc2USLQoHc3VtbWFyeRgBIAEoCzIcLm1vbml0b3JpbmcudjEuTWV0cmljU3VtbWFyeSLEAQoUU3RyZWFtTWV0cmljc1JlcXVlc3QSFAoMbWV0cmljX3R5cGVzGAEgAygJEhMKC2ludGVydmFsX21zGAIgASgFEkwKDWxhYmVsX2ZpbHRlcnMYAyADKAsyNS5tb25pdG9yaW5nLnYxLlN0cmVhbU1ldHJpY3NSZXF1ZXN0LkxhYmVsRmlsdGVyc0VudHJ5GjMKEUxhYmVsRmlsdGVyc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAEiSwoRU3RyZWFtTG9nc1JlcXVlc3QSKAoGZmlsdGVyGAEgASgLMhgubW9uaXRvcmluZy52MS5Mb2dGaWx0ZXISDAoEdGFpbBgCIAEoCCLPAQoMUXVlcnlSZXF1ZXN0EkMKFXVwZGF0ZV9tZXRyaWNzX2ZpbHRlchgBIAEoCzIiLm1vbml0b3JpbmcudjEuVXBkYXRlTWV0cmljc0ZpbHRlckgAEj0KEnVwZGF0ZV9sb2dzX2ZpbHRlchgCIAEoCzIfLm1vbml0b3JpbmcudjEuVXBkYXRlTG9nc0ZpbHRlckgAEjIKDHBhdXNlX3Jlc3VtZRgDIAEoCzIaLm1vbml0b3JpbmcudjEuUGF1c2VSZXN1bWVIAEIHCgVxdWVyeSKtAQoTVXBkYXRlTWV0cmljc0ZpbHRlchIUCgxtZXRyaWNfdHlwZXMYASADKAkSSwoNbGFiZWxfZmlsdGVycxgCIAMoCzI0Lm1vbml0b3JpbmcudjEuVXBkYXRlTWV0cmljc0ZpbHRlci5MYWJlbEZpbHRlcnNFbnRyeRozChFMYWJlbEZpbHRlcnNFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBIjwKEFVwZGF0ZUxvZ3NGaWx0ZXISKAoGZmlsdGVyGAEgASgLMhgubW9uaXRvcmluZy52MS5Mb2dGaWx0ZXIiHQoLUGF1c2VSZXN1bWUSDgoGcGF1c2VkGAEgASgIIrEBCg1RdWVyeVJlc3BvbnNlEjAKC21ldHJpY19kYXRhGAEgASgLMhkubW9uaXRvcmluZy52MS5NZXRyaWNEYXRhSAASLAoJbG9nX2VudHJ5GAIgASgLMhcubW9uaXRvcmluZy52MS5Mb2dFbnRyeUgAEjQKDXN0YXR1c191cGRhdGUYAyABKAsyGy5tb25pdG9yaW5nLnYxLlN0YXR1c1VwZGF0ZUgAQgoKCHJlc3BvbnNlIk4KDFN0YXR1c1VwZGF0ZRIPCgdtZXNzYWdlGAEgASgJEi0KCXRpbWVzdGFtcBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAy6QIKEU1vbml0b3JpbmdTZXJ2aWNlEmMKEEdldE1ldHJpY1N1bW1hcnkSJi5tb25pdG9yaW5nLnYxLkdldE1ldHJpY1N1bW1hcnlSZXF1ZXN0GicubW9uaXRvcmluZy52MS5HZXRNZXRyaWNTdW1tYXJ5UmVzcG9uc2USUQoNU3RyZWFtTWV0cmljcxIjLm1vbml0b3JpbmcudjEuU3RyZWFtTWV0cmljc1JlcXVlc3QaGS5tb25pdG9yaW5nLnYxLk1ldHJpY0RhdGEwARJJCgpTdHJlYW1Mb2dzEiAubW9uaXRvcmluZy52MS5TdHJlYW1Mb2dzUmVxdWVzdBoXLm1vbml0b3JpbmcudjEuTG9nRW50cnkwARJRChBJbnRlcmFjdGl2ZVF1ZXJ5EhsubW9uaXRvcmluZy52MS5RdWVyeVJlcXVlc3QaHC5tb25pdG9yaW5nLnYxLlF1ZXJ5UmVzcG9uc2UoATABQnYKEWNvbS5tb25pdG9yaW5nLnYxQgxTZXJ2aWNlUHJvdG9QAaICA01YWKoCDU1vbml0b3JpbmcuVjHKAg1Nb25pdG9yaW5nXFYx4gIZTW9uaXRvcmluZ1xWMVxHUEJNZXRhZGF0YeoCDk1vbml0b3Jpbmc6OlYxYgZwcm90bzM',
+    [file_monitoring_v1_metrics, file_monitoring_v1_logs, file_google_protobuf_timestamp],
+  );
 
 /**
  * メトリクスサマリー取得リクエスト
  *
  * @generated from message monitoring.v1.GetMetricSummaryRequest
  */
-export type GetMetricSummaryRequest = Message<"monitoring.v1.GetMetricSummaryRequest"> & {
+export type GetMetricSummaryRequest = Message<'monitoring.v1.GetMetricSummaryRequest'> & {
   /**
    * @generated from field: string metric_type = 1;
    */
@@ -44,7 +48,8 @@ export type GetMetricSummaryRequest = Message<"monitoring.v1.GetMetricSummaryReq
  * Describes the message monitoring.v1.GetMetricSummaryRequest.
  * Use `create(GetMetricSummaryRequestSchema)` to create a new message.
  */
-export const GetMetricSummaryRequestSchema: GenMessage<GetMetricSummaryRequest> = /*@__PURE__*/
+export const GetMetricSummaryRequestSchema: GenMessage<GetMetricSummaryRequest> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 0);
 
 /**
@@ -52,7 +57,7 @@ export const GetMetricSummaryRequestSchema: GenMessage<GetMetricSummaryRequest> 
  *
  * @generated from message monitoring.v1.GetMetricSummaryResponse
  */
-export type GetMetricSummaryResponse = Message<"monitoring.v1.GetMetricSummaryResponse"> & {
+export type GetMetricSummaryResponse = Message<'monitoring.v1.GetMetricSummaryResponse'> & {
   /**
    * @generated from field: monitoring.v1.MetricSummary summary = 1;
    */
@@ -63,7 +68,8 @@ export type GetMetricSummaryResponse = Message<"monitoring.v1.GetMetricSummaryRe
  * Describes the message monitoring.v1.GetMetricSummaryResponse.
  * Use `create(GetMetricSummaryResponseSchema)` to create a new message.
  */
-export const GetMetricSummaryResponseSchema: GenMessage<GetMetricSummaryResponse> = /*@__PURE__*/
+export const GetMetricSummaryResponseSchema: GenMessage<GetMetricSummaryResponse> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 1);
 
 /**
@@ -71,7 +77,7 @@ export const GetMetricSummaryResponseSchema: GenMessage<GetMetricSummaryResponse
  *
  * @generated from message monitoring.v1.StreamMetricsRequest
  */
-export type StreamMetricsRequest = Message<"monitoring.v1.StreamMetricsRequest"> & {
+export type StreamMetricsRequest = Message<'monitoring.v1.StreamMetricsRequest'> & {
   /**
    * @generated from field: repeated string metric_types = 1;
    */
@@ -92,7 +98,8 @@ export type StreamMetricsRequest = Message<"monitoring.v1.StreamMetricsRequest">
  * Describes the message monitoring.v1.StreamMetricsRequest.
  * Use `create(StreamMetricsRequestSchema)` to create a new message.
  */
-export const StreamMetricsRequestSchema: GenMessage<StreamMetricsRequest> = /*@__PURE__*/
+export const StreamMetricsRequestSchema: GenMessage<StreamMetricsRequest> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 2);
 
 /**
@@ -100,7 +107,7 @@ export const StreamMetricsRequestSchema: GenMessage<StreamMetricsRequest> = /*@_
  *
  * @generated from message monitoring.v1.StreamLogsRequest
  */
-export type StreamLogsRequest = Message<"monitoring.v1.StreamLogsRequest"> & {
+export type StreamLogsRequest = Message<'monitoring.v1.StreamLogsRequest'> & {
   /**
    * @generated from field: monitoring.v1.LogFilter filter = 1;
    */
@@ -116,7 +123,8 @@ export type StreamLogsRequest = Message<"monitoring.v1.StreamLogsRequest"> & {
  * Describes the message monitoring.v1.StreamLogsRequest.
  * Use `create(StreamLogsRequestSchema)` to create a new message.
  */
-export const StreamLogsRequestSchema: GenMessage<StreamLogsRequest> = /*@__PURE__*/
+export const StreamLogsRequestSchema: GenMessage<StreamLogsRequest> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 3);
 
 /**
@@ -124,36 +132,41 @@ export const StreamLogsRequestSchema: GenMessage<StreamLogsRequest> = /*@__PURE_
  *
  * @generated from message monitoring.v1.QueryRequest
  */
-export type QueryRequest = Message<"monitoring.v1.QueryRequest"> & {
+export type QueryRequest = Message<'monitoring.v1.QueryRequest'> & {
   /**
    * @generated from oneof monitoring.v1.QueryRequest.query
    */
-  query: {
-    /**
-     * @generated from field: monitoring.v1.UpdateMetricsFilter update_metrics_filter = 1;
-     */
-    value: UpdateMetricsFilter;
-    case: "updateMetricsFilter";
-  } | {
-    /**
-     * @generated from field: monitoring.v1.UpdateLogsFilter update_logs_filter = 2;
-     */
-    value: UpdateLogsFilter;
-    case: "updateLogsFilter";
-  } | {
-    /**
-     * @generated from field: monitoring.v1.PauseResume pause_resume = 3;
-     */
-    value: PauseResume;
-    case: "pauseResume";
-  } | { case: undefined; value?: undefined };
+  query:
+    | {
+        /**
+         * @generated from field: monitoring.v1.UpdateMetricsFilter update_metrics_filter = 1;
+         */
+        value: UpdateMetricsFilter;
+        case: 'updateMetricsFilter';
+      }
+    | {
+        /**
+         * @generated from field: monitoring.v1.UpdateLogsFilter update_logs_filter = 2;
+         */
+        value: UpdateLogsFilter;
+        case: 'updateLogsFilter';
+      }
+    | {
+        /**
+         * @generated from field: monitoring.v1.PauseResume pause_resume = 3;
+         */
+        value: PauseResume;
+        case: 'pauseResume';
+      }
+    | { case: undefined; value?: undefined };
 };
 
 /**
  * Describes the message monitoring.v1.QueryRequest.
  * Use `create(QueryRequestSchema)` to create a new message.
  */
-export const QueryRequestSchema: GenMessage<QueryRequest> = /*@__PURE__*/
+export const QueryRequestSchema: GenMessage<QueryRequest> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 4);
 
 /**
@@ -161,7 +174,7 @@ export const QueryRequestSchema: GenMessage<QueryRequest> = /*@__PURE__*/
  *
  * @generated from message monitoring.v1.UpdateMetricsFilter
  */
-export type UpdateMetricsFilter = Message<"monitoring.v1.UpdateMetricsFilter"> & {
+export type UpdateMetricsFilter = Message<'monitoring.v1.UpdateMetricsFilter'> & {
   /**
    * @generated from field: repeated string metric_types = 1;
    */
@@ -177,7 +190,8 @@ export type UpdateMetricsFilter = Message<"monitoring.v1.UpdateMetricsFilter"> &
  * Describes the message monitoring.v1.UpdateMetricsFilter.
  * Use `create(UpdateMetricsFilterSchema)` to create a new message.
  */
-export const UpdateMetricsFilterSchema: GenMessage<UpdateMetricsFilter> = /*@__PURE__*/
+export const UpdateMetricsFilterSchema: GenMessage<UpdateMetricsFilter> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 5);
 
 /**
@@ -185,7 +199,7 @@ export const UpdateMetricsFilterSchema: GenMessage<UpdateMetricsFilter> = /*@__P
  *
  * @generated from message monitoring.v1.UpdateLogsFilter
  */
-export type UpdateLogsFilter = Message<"monitoring.v1.UpdateLogsFilter"> & {
+export type UpdateLogsFilter = Message<'monitoring.v1.UpdateLogsFilter'> & {
   /**
    * @generated from field: monitoring.v1.LogFilter filter = 1;
    */
@@ -196,7 +210,8 @@ export type UpdateLogsFilter = Message<"monitoring.v1.UpdateLogsFilter"> & {
  * Describes the message monitoring.v1.UpdateLogsFilter.
  * Use `create(UpdateLogsFilterSchema)` to create a new message.
  */
-export const UpdateLogsFilterSchema: GenMessage<UpdateLogsFilter> = /*@__PURE__*/
+export const UpdateLogsFilterSchema: GenMessage<UpdateLogsFilter> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 6);
 
 /**
@@ -204,7 +219,7 @@ export const UpdateLogsFilterSchema: GenMessage<UpdateLogsFilter> = /*@__PURE__*
  *
  * @generated from message monitoring.v1.PauseResume
  */
-export type PauseResume = Message<"monitoring.v1.PauseResume"> & {
+export type PauseResume = Message<'monitoring.v1.PauseResume'> & {
   /**
    * @generated from field: bool paused = 1;
    */
@@ -215,7 +230,8 @@ export type PauseResume = Message<"monitoring.v1.PauseResume"> & {
  * Describes the message monitoring.v1.PauseResume.
  * Use `create(PauseResumeSchema)` to create a new message.
  */
-export const PauseResumeSchema: GenMessage<PauseResume> = /*@__PURE__*/
+export const PauseResumeSchema: GenMessage<PauseResume> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 7);
 
 /**
@@ -223,36 +239,41 @@ export const PauseResumeSchema: GenMessage<PauseResume> = /*@__PURE__*/
  *
  * @generated from message monitoring.v1.QueryResponse
  */
-export type QueryResponse = Message<"monitoring.v1.QueryResponse"> & {
+export type QueryResponse = Message<'monitoring.v1.QueryResponse'> & {
   /**
    * @generated from oneof monitoring.v1.QueryResponse.response
    */
-  response: {
-    /**
-     * @generated from field: monitoring.v1.MetricData metric_data = 1;
-     */
-    value: MetricData;
-    case: "metricData";
-  } | {
-    /**
-     * @generated from field: monitoring.v1.LogEntry log_entry = 2;
-     */
-    value: LogEntry;
-    case: "logEntry";
-  } | {
-    /**
-     * @generated from field: monitoring.v1.StatusUpdate status_update = 3;
-     */
-    value: StatusUpdate;
-    case: "statusUpdate";
-  } | { case: undefined; value?: undefined };
+  response:
+    | {
+        /**
+         * @generated from field: monitoring.v1.MetricData metric_data = 1;
+         */
+        value: MetricData;
+        case: 'metricData';
+      }
+    | {
+        /**
+         * @generated from field: monitoring.v1.LogEntry log_entry = 2;
+         */
+        value: LogEntry;
+        case: 'logEntry';
+      }
+    | {
+        /**
+         * @generated from field: monitoring.v1.StatusUpdate status_update = 3;
+         */
+        value: StatusUpdate;
+        case: 'statusUpdate';
+      }
+    | { case: undefined; value?: undefined };
 };
 
 /**
  * Describes the message monitoring.v1.QueryResponse.
  * Use `create(QueryResponseSchema)` to create a new message.
  */
-export const QueryResponseSchema: GenMessage<QueryResponse> = /*@__PURE__*/
+export const QueryResponseSchema: GenMessage<QueryResponse> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 8);
 
 /**
@@ -260,7 +281,7 @@ export const QueryResponseSchema: GenMessage<QueryResponse> = /*@__PURE__*/
  *
  * @generated from message monitoring.v1.StatusUpdate
  */
-export type StatusUpdate = Message<"monitoring.v1.StatusUpdate"> & {
+export type StatusUpdate = Message<'monitoring.v1.StatusUpdate'> & {
   /**
    * @generated from field: string message = 1;
    */
@@ -276,7 +297,8 @@ export type StatusUpdate = Message<"monitoring.v1.StatusUpdate"> & {
  * Describes the message monitoring.v1.StatusUpdate.
  * Use `create(StatusUpdateSchema)` to create a new message.
  */
-export const StatusUpdateSchema: GenMessage<StatusUpdate> = /*@__PURE__*/
+export const StatusUpdateSchema: GenMessage<StatusUpdate> =
+  /*@__PURE__*/
   messageDesc(file_monitoring_v1_service, 9);
 
 /**
@@ -291,40 +313,38 @@ export const MonitoringService: GenService<{
    * @generated from rpc monitoring.v1.MonitoringService.GetMetricSummary
    */
   getMetricSummary: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof GetMetricSummaryRequestSchema;
     output: typeof GetMetricSummaryResponseSchema;
-  },
+  };
   /**
    * Server Streaming RPC: メトリクスのストリーミング
    *
    * @generated from rpc monitoring.v1.MonitoringService.StreamMetrics
    */
   streamMetrics: {
-    methodKind: "server_streaming";
+    methodKind: 'server_streaming';
     input: typeof StreamMetricsRequestSchema;
     output: typeof MetricDataSchema;
-  },
+  };
   /**
    * Server Streaming RPC: ログのストリーミング
    *
    * @generated from rpc monitoring.v1.MonitoringService.StreamLogs
    */
   streamLogs: {
-    methodKind: "server_streaming";
+    methodKind: 'server_streaming';
     input: typeof StreamLogsRequestSchema;
     output: typeof LogEntrySchema;
-  },
+  };
   /**
    * Bidirectional Streaming RPC: インタラクティブクエリ
    *
    * @generated from rpc monitoring.v1.MonitoringService.InteractiveQuery
    */
   interactiveQuery: {
-    methodKind: "bidi_streaming";
+    methodKind: 'bidi_streaming';
     input: typeof QueryRequestSchema;
     output: typeof QueryResponseSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_monitoring_v1_service, 0);
-
+  };
+}> = /*@__PURE__*/ serviceDesc(file_monitoring_v1_service, 0);

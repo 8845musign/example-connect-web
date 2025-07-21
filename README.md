@@ -83,18 +83,21 @@ connect-web/
 ## 🔧 技術スタック
 
 ### バックエンド
+
 - **Node.js** + **TypeScript**
 - **Express** - HTTPサーバー
 - **@connectrpc/connect-node** v2 - gRPCサーバー実装
 - **@bufbuild/protobuf** v2 - Protocol Buffersランタイム
 
 ### フロントエンド
+
 - **React** 18
 - **React Router** v7 - ファイルベースルーティング
 - **@connectrpc/connect-web** v2 - gRPC-Webクライアント
 - **Vite** - ビルドツール
 
 ### 共通
+
 - **Protocol Buffers** - インターフェース定義
 - **buf** - Protocol Buffersツールチェーン
 

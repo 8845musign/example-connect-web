@@ -1,5 +1,4 @@
-import { Code, ConnectError } from '@connectrpc/connect';
-import { MonitoringService } from '../proto/gen/monitoring/v1/service_pb.js';
+// Removed unused imports
 import type {
   GetMetricSummaryRequest,
   GetMetricSummaryResponse,
@@ -7,39 +6,27 @@ import type {
   StreamLogsRequest,
   QueryRequest,
   QueryResponse,
-  StatusUpdate,
-  UpdateMetricsFilter,
-  PauseResume,
 } from '../proto/gen/monitoring/v1/service_pb.js';
 import {
-  GetMetricSummaryRequestSchema,
   GetMetricSummaryResponseSchema,
-  StreamMetricsRequestSchema,
-  StreamLogsRequestSchema,
-  QueryRequestSchema,
   QueryResponseSchema,
   StatusUpdateSchema,
-  UpdateMetricsFilterSchema,
-  PauseResumeSchema,
 } from '../proto/gen/monitoring/v1/service_pb.js';
 import type { MetricData } from '../proto/gen/monitoring/v1/metrics_pb.js';
 import type { LogEntry } from '../proto/gen/monitoring/v1/logs_pb.js';
-import type { MetricSummary } from '../proto/gen/monitoring/v1/metrics_pb.js';
+// Removed unused type import
 import { MetricSummarySchema } from '../proto/gen/monitoring/v1/metrics_pb.js';
-import { MetricDataSchema } from '../proto/gen/monitoring/v1/metrics_pb.js';
-import { LogEntrySchema } from '../proto/gen/monitoring/v1/logs_pb.js';
+// Removed unused schema imports
 import { create } from '@bufbuild/protobuf';
 import { timestampNow } from '@bufbuild/protobuf/wkt';
 import { MetricsGenerator } from '../utils/metrics-generator.js';
 import { LogsGenerator } from '../utils/logs-generator.js';
 
-export class MonitoringServiceImpl implements typeof MonitoringService.methods {
+export class MonitoringServiceImpl {
   private metricsGenerator = new MetricsGenerator();
   private logsGenerator = new LogsGenerator();
 
-  async getMetricSummary(
-    req: GetMetricSummaryRequest
-  ): Promise<GetMetricSummaryResponse> {
+  async getMetricSummary(req: GetMetricSummaryRequest): Promise<GetMetricSummaryResponse> {
     // モックデータを生成
     const summary = create(MetricSummarySchema, {
       metricType: req.metricType,
@@ -56,25 +43,21 @@ export class MonitoringServiceImpl implements typeof MonitoringService.methods {
     });
   }
 
-  async *streamMetrics(
-    req: StreamMetricsRequest,
-    context: any
-  ): AsyncGenerator<MetricData> {
+  async *streamMetrics(req: StreamMetricsRequest, context: any): AsyncGenerator<MetricData> {
     const intervalMs = req.intervalMs || 1000;
-    const metricTypes = req.metricTypes.length > 0 
-      ? req.metricTypes 
-      : ['cpu_usage', 'memory_usage', 'network_io'];
+    const metricTypes =
+      req.metricTypes.length > 0 ? req.metricTypes : ['cpu_usage', 'memory_usage', 'network_io'];
 
     console.log(`Starting metrics stream for types: ${metricTypes.join(', ')}`);
 
     while (!context.signal.aborted) {
       for (const metricType of metricTypes) {
         const metric = this.metricsGenerator.generateMetric(metricType);
-        
+
         // ラベルフィルターの適用
         if (req.labelFilters && Object.keys(req.labelFilters).length > 0) {
           const matches = Object.entries(req.labelFilters).every(
-            ([key, value]) => metric.labels[key] === value
+            ([key, value]) => metric.labels[key] === value,
           );
           if (!matches) continue;
         }
@@ -82,16 +65,13 @@ export class MonitoringServiceImpl implements typeof MonitoringService.methods {
         yield metric;
       }
 
-      await new Promise(resolve => setTimeout(resolve, intervalMs));
+      await new Promise((resolve) => setTimeout(resolve, intervalMs));
     }
   }
 
-  async *streamLogs(
-    req: StreamLogsRequest,
-    context: any
-  ): AsyncGenerator<LogEntry> {
+  async *streamLogs(req: StreamLogsRequest, context: any): AsyncGenerator<LogEntry> {
     console.log('Starting logs stream');
-    
+
     // 過去のログを送信（tail = falseの場合）
     if (!req.tail) {
       const historicalLogs = this.logsGenerator.generateHistoricalLogs(50);
@@ -105,27 +85,25 @@ export class MonitoringServiceImpl implements typeof MonitoringService.methods {
     // リアルタイムログのストリーミング
     while (!context.signal.aborted) {
       const log = this.logsGenerator.generateLog();
-      
+
       if (this.matchesLogFilter(log, req.filter)) {
         yield log;
       }
 
       // ランダムな間隔でログを生成（100ms〜2000ms）
-      await new Promise(resolve => 
-        setTimeout(resolve, 100 + Math.random() * 1900)
-      );
+      await new Promise((resolve) => setTimeout(resolve, 100 + Math.random() * 1900));
     }
   }
 
   async *interactiveQuery(
     stream: AsyncIterable<QueryRequest>,
-    context: any
+    context: any,
   ): AsyncGenerator<QueryResponse> {
     let metricTypes = ['cpu_usage', 'memory_usage'];
     let labelFilters: Record<string, string> = {};
     let paused = false;
     let logFilter: any = null;
-    
+
     console.log('Starting interactive query stream');
 
     // ステータス更新を送信
@@ -162,11 +140,11 @@ export class MonitoringServiceImpl implements typeof MonitoringService.methods {
       // キューからリクエストを処理
       while (requestQueue.length > 0) {
         const request = requestQueue.shift()!;
-        
+
         if (request.query.case === 'updateMetricsFilter' && request.query.value) {
           metricTypes = request.query.value.metricTypes;
           labelFilters = request.query.value.labelFilters || {};
-          
+
           yield create(QueryResponseSchema, {
             response: {
               case: 'statusUpdate',
@@ -178,7 +156,7 @@ export class MonitoringServiceImpl implements typeof MonitoringService.methods {
           });
         } else if (request.query.case === 'updateLogsFilter' && request.query.value) {
           logFilter = request.query.value.filter;
-          
+
           yield create(QueryResponseSchema, {
             response: {
               case: 'statusUpdate',
@@ -190,7 +168,7 @@ export class MonitoringServiceImpl implements typeof MonitoringService.methods {
           });
         } else if (request.query.case === 'pauseResume' && request.query.value) {
           paused = request.query.value.paused;
-          
+
           yield create(QueryResponseSchema, {
             response: {
               case: 'statusUpdate',
@@ -208,11 +186,11 @@ export class MonitoringServiceImpl implements typeof MonitoringService.methods {
         // メトリクスデータの生成
         for (const metricType of metricTypes) {
           const metric = this.metricsGenerator.generateMetric(metricType);
-          
+
           const matches = Object.entries(labelFilters).every(
-            ([key, value]) => metric.labels[key] === value
+            ([key, value]) => metric.labels[key] === value,
           );
-          
+
           if (matches) {
             yield create(QueryResponseSchema, {
               response: {
@@ -237,7 +215,7 @@ export class MonitoringServiceImpl implements typeof MonitoringService.methods {
         }
       }
 
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   }
 

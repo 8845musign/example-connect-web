@@ -9,6 +9,7 @@
     "**/.client/**/*.tsx"
   ],
   "compilerOptions": {
+    "composite": true,
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
@@ -17,6 +18,8 @@
     "paths": {
       "~/*": ["./app/*"]
     },
-    "noEmit": true
+    "noEmit": false,
+    "outDir": "./build/types",
+    "emitDeclarationOnly": true
   }
 }

@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from "react";
-import { monitoringClient } from "../client";
-import type { MetricData } from "../proto/monitoring/v1/metrics_pb";
+import { useEffect, useState, useRef } from 'react';
+import { monitoringClient } from '../client';
+import type { MetricData } from '../proto/monitoring/v1/metrics_pb';
 
 export function useMetricsStream(metricTypes: string[]) {
   const [data, setData] = useState<MetricData[]>([]);
@@ -27,15 +27,15 @@ export function useMetricsStream(metricTypes: string[]) {
             metricTypes,
             intervalMs: 1000,
           },
-          { signal: abortController.signal }
+          { signal: abortController.signal },
         );
 
         setLoading(false);
 
         for await (const metric of stream) {
           if (abortController.signal.aborted) break;
-          
-          setData(prev => {
+
+          setData((prev) => {
             const updated = [...prev, metric];
             // 最新100件のみ保持（メモリ管理）
             return updated.slice(-100);

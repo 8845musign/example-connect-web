@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import type { MetricData } from "~/lib/proto/monitoring/v1/metrics_pb";
-import { timestampDate } from "@bufbuild/protobuf/wkt";
+import { useMemo } from 'react';
+import type { MetricData } from '~/lib/proto/monitoring/v1/metrics_pb';
+import { timestampDate } from '@bufbuild/protobuf/wkt';
 
 interface MetricsChartProps {
   data: MetricData[];
@@ -14,16 +14,18 @@ interface MetricsChartProps {
 
 export function MetricsChart({ data, metricInfo, height = 300 }: MetricsChartProps) {
   const chartData = useMemo(() => {
-    return data.map(metric => ({
-      time: metric.timestamp ? timestampDate(metric.timestamp).toLocaleTimeString('ja-JP') : new Date().toLocaleTimeString('ja-JP'),
+    return data.map((metric) => ({
+      time: metric.timestamp
+        ? timestampDate(metric.timestamp).toLocaleTimeString('ja-JP')
+        : new Date().toLocaleTimeString('ja-JP'),
       value: metric.value,
       labels: metric.labels,
     }));
   }, [data]);
 
   // 簡易的なチャート実装（実際のプロジェクトではrechartsなどを使用）
-  const maxValue = Math.max(...data.map(d => d.value), 100);
-  const minValue = Math.min(...data.map(d => d.value), 0);
+  const maxValue = Math.max(...data.map((d) => d.value), 100);
+  const minValue = Math.min(...data.map((d) => d.value), 0);
   const range = maxValue - minValue || 1;
 
   return (
@@ -37,11 +39,11 @@ export function MetricsChart({ data, metricInfo, height = 300 }: MetricsChartPro
           </div>
         )}
       </div>
-      
+
       <div className="chart-body">
         <svg width="100%" height={height - 60} viewBox={`0 0 800 ${height - 60}`}>
           {/* Y軸のグリッドライン */}
-          {[0, 25, 50, 75, 100].map(percent => (
+          {[0, 25, 50, 75, 100].map((percent) => (
             <g key={percent}>
               <line
                 x1="50"
@@ -83,7 +85,7 @@ export function MetricsChart({ data, metricInfo, height = 300 }: MetricsChartPro
           {chartData.map((point, index) => {
             const x = 50 + (700 / Math.max(chartData.length - 1, 1)) * index;
             const y = (height - 60) * (1 - (point.value - minValue) / range);
-            
+
             return (
               <circle
                 key={index}

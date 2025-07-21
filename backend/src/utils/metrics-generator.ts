@@ -8,7 +8,7 @@ export class MetricsGenerator {
 
   generateMetric(metricType: string): MetricData {
     const id = `metric_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
-    
+
     let value: number;
     let unit: string;
     const labels: Record<string, string> = {
@@ -22,27 +22,27 @@ export class MetricsGenerator {
         unit = 'percent';
         labels.core = `core-${Math.floor(Math.random() * 8)}`;
         break;
-      
+
       case 'memory_usage':
         value = this.generateMemoryUsage();
         unit = 'percent';
         labels.type = Math.random() > 0.5 ? 'heap' : 'rss';
         break;
-      
+
       case 'disk_io':
         value = this.generateDiskIO();
         unit = 'MB/s';
         labels.device = `sda${Math.floor(Math.random() * 4) + 1}`;
         labels.operation = Math.random() > 0.5 ? 'read' : 'write';
         break;
-      
+
       case 'network_io':
         value = this.generateNetworkIO();
         unit = 'Mbps';
         labels.interface = `eth${Math.floor(Math.random() * 3)}`;
         labels.direction = Math.random() > 0.5 ? 'in' : 'out';
         break;
-      
+
       case 'request_rate':
         value = this.generateRequestRate();
         unit = 'req/s';
@@ -51,21 +51,23 @@ export class MetricsGenerator {
         ];
         labels.method = ['GET', 'POST', 'PUT', 'DELETE'][Math.floor(Math.random() * 4)];
         break;
-      
+
       case 'error_rate':
         value = this.generateErrorRate();
         unit = 'errors/min';
         labels.service = ['auth', 'api', 'database', 'cache'][Math.floor(Math.random() * 4)];
-        labels.errorType = ['timeout', 'validation', 'server', 'client'][Math.floor(Math.random() * 4)];
+        labels.errorType = ['timeout', 'validation', 'server', 'client'][
+          Math.floor(Math.random() * 4)
+        ];
         break;
-      
+
       case 'latency':
         value = this.generateLatency();
         unit = 'ms';
         labels.percentile = ['p50', 'p90', 'p95', 'p99'][Math.floor(Math.random() * 4)];
         labels.service = ['frontend', 'backend', 'database'][Math.floor(Math.random() * 3)];
         break;
-      
+
       default:
         value = Math.random() * 100;
         unit = 'units';
@@ -93,12 +95,12 @@ export class MetricsGenerator {
     // メモリは緩やかに増加し、時々ガベージコレクションで減少
     const counter = this.counters.get('memory') || 50;
     let newValue = counter + (Math.random() - 0.3) * 5;
-    
+
     // 10%の確率でGC
     if (Math.random() < 0.1) {
       newValue = newValue * 0.7;
     }
-    
+
     newValue = Math.max(30, Math.min(95, newValue));
     this.counters.set('memory', newValue);
     return newValue;
@@ -140,12 +142,12 @@ export class MetricsGenerator {
     const base = 50;
     const variance = 20;
     let latency = base + (Math.random() - 0.5) * variance;
-    
+
     // 5%の確率で高レイテンシ
     if (Math.random() < 0.05) {
       latency = 200 + Math.random() * 300;
     }
-    
+
     return Math.max(1, latency);
   }
 }

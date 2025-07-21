@@ -53,6 +53,7 @@
 ```
 
 **理由**：
+
 - Protocol Buffers定義の一元管理
 - フロントエンドとバックエンドの同期的な開発
 - 統合テストの容易さ
@@ -60,11 +61,13 @@
 ### 2. データフロー設計
 
 **プッシュベースのアーキテクチャ**：
+
 - サーバーが能動的にデータを送信
 - クライアントは受信に専念
 - リアルタイム性の確保
 
 **フィルタリングの実装場所**：
+
 - サーバーサイドでフィルタリング
 - ネットワーク帯域の節約
 - クライアントの負荷軽減
@@ -72,11 +75,13 @@
 ### 3. 状態管理
 
 **React の組み込み状態管理を使用**：
+
 - useState/useReducer で十分
 - 外部ライブラリの学習コストを削減
 - ストリーミングデータに適した設計
 
 **メモリ管理戦略**：
+
 - 最新N件のみ保持
 - 古いデータの自動破棄
 - メモリリークの防止
@@ -95,11 +100,13 @@
 ### 2. パフォーマンス最適化
 
 **レンダリング最適化**：
+
 - React.memo による不要な再レンダリング防止
 - useMemo/useCallback の適切な使用
 - 仮想スクロールによる大量データの表示
 
 **ネットワーク最適化**：
+
 - データのバッチング
 - 適切なストリーミング間隔
 - 圧縮の活用
@@ -107,12 +114,14 @@
 ### 3. 開発体験の向上
 
 **型安全性**：
+
 - Protocol Buffers による自動型生成
 - TypeScript の strict mode
 - 型推論の最大活用
 - @bufbuild/protobuf v2 の新しい型システム
 
 **デバッグ機能**：
+
 - ストリーミングデータのログ出力
 - 接続状態の可視化
 - エラーの詳細表示
@@ -122,11 +131,13 @@
 ### 1. Server Component を使わないトレードオフ
 
 **メリット**：
+
 - シンプルな実装
 - 既存のReact知識の活用
 - ストリーミングに集中
 
 **デメリット**：
+
 - 初期表示の遅延
 - SEOの制限
 - サーバーリソースの未活用
@@ -134,11 +145,13 @@
 ### 2. 状態管理ライブラリを使わないトレードオフ
 
 **メリット**：
+
 - 学習コストの削減
 - バンドルサイズの削減
 - シンプルなデータフロー
 
 **デメリット**：
+
 - 複雑な状態管理の困難さ
 - デバッグツールの不足
 - 状態の永続化の手間
@@ -146,11 +159,13 @@
 ### 3. モックデータ vs 実データ
 
 **モックデータを選択した理由**：
+
 - 学習に集中できる
 - 環境構築の簡素化
 - 予測可能な動作
 
 **実データ統合への道筋**：
+
 - インターフェースは実運用を想定
 - データソースの差し替えが容易
 - 段階的な移行が可能
@@ -206,28 +221,31 @@ interface TenantContext {
 ### 移行時の主な変更点
 
 1. **インポートパスの変更**
+
    ```typescript
    // v1
-   import { ServiceName } from "./service_connect";
-   
+   import { ServiceName } from './service_connect';
+
    // v2
-   import { ServiceName } from "./service_pb";
+   import { ServiceName } from './service_pb';
    ```
 
 2. **タイムスタンプの扱い**
+
    ```typescript
    // v1
-   import { Timestamp } from "@bufbuild/protobuf";
-   
+   import { Timestamp } from '@bufbuild/protobuf';
+
    // v2
-   import { timestampDate, timestampNow } from "@bufbuild/protobuf/wkt";
+   import { timestampDate, timestampNow } from '@bufbuild/protobuf/wkt';
    ```
 
 3. **メッセージの作成**
+
    ```typescript
    // v1
    const message = new MessageType();
-   
+
    // v2
    const message = create(MessageSchema, {});
    ```
