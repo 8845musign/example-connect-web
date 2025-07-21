@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package monitoring.v1;
+
+import "monitoring/v1/metrics.proto";
+import "monitoring/v1/logs.proto";
+import "google/protobuf/timestamp.proto";
+
+// モニタリングサービス
+service MonitoringService {
+  // Unary RPC: メトリクスサマリーの取得
+  rpc GetMetricSummary(GetMetricSummaryRequest) returns (GetMetricSummaryResponse);
+  
+  // Server Streaming RPC: メトリクスのストリーミング
+  rpc StreamMetrics(StreamMetricsRequest) returns (stream MetricData);
+  
+  // Server Streaming RPC: ログのストリーミング
+  rpc StreamLogs(StreamLogsRequest) returns (stream LogEntry);
+  
+  // Bidirectional Streaming RPC: インタラクティブクエリ
+  rpc InteractiveQuery(stream QueryRequest) returns (stream QueryResponse);
+}
+
+// メトリクスサマリー取得リクエスト
+message GetMetricSummaryRequest {
+  string metric_type = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+}
+
+// メトリクスサマリー取得レスポンス
+message GetMetricSummaryResponse {
+  MetricSummary summary = 1;
+}
+
+// メトリクスストリーミングリクエスト
+message StreamMetricsRequest {
+  repeated string metric_types = 1;
+  int32 interval_ms = 2;
+  map<string, string> label_filters = 3;
+}
+
+// ログストリーミングリクエスト
+message StreamLogsRequest {
+  LogFilter filter = 1;
+  bool tail = 2;
+}
+
+// インタラクティブクエリリクエスト
+message QueryRequest {
+  oneof query {
+    UpdateMetricsFilter update_metrics_filter = 1;
+    UpdateLogsFilter update_logs_filter = 2;
+    PauseResume pause_resume = 3;
+  }
+}
+
+// メトリクスフィルター更新
+message UpdateMetricsFilter {
+  repeated string metric_types = 1;
+  map<string, string> label_filters = 2;
+}
+
+// ログフィルター更新
+message UpdateLogsFilter {
+  LogFilter filter = 1;
+}
+
+// 一時停止/再開
+message PauseResume {
+  bool paused = 1;
+}
+
+// インタラクティブクエリレスポンス
+message QueryResponse {
+  oneof response {
+    MetricData metric_data = 1;
+    LogEntry log_entry = 2;
+    StatusUpdate status_update = 3;
+  }
+}
+
+// ステータス更新
+message StatusUpdate {
+  string message = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}

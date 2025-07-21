@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package monitoring.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// ログエントリ
+message LogEntry {
+  string id = 1;
+  LogLevel level = 2;
+  string message = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  string source = 5;
+  map<string, string> metadata = 6;
+  string trace_id = 7;
+  string span_id = 8;
+}
+
+// ログレベル
+enum LogLevel {
+  LOG_LEVEL_UNSPECIFIED = 0;
+  LOG_LEVEL_DEBUG = 1;
+  LOG_LEVEL_INFO = 2;
+  LOG_LEVEL_WARN = 3;
+  LOG_LEVEL_ERROR = 4;
+  LOG_LEVEL_FATAL = 5;
+}
+
+// ログフィルター
+message LogFilter {
+  repeated LogLevel levels = 1;
+  repeated string sources = 2;
+  string search_text = 3;
+  google.protobuf.Timestamp start_time = 4;
+  google.protobuf.Timestamp end_time = 5;
+}

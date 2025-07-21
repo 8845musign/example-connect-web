@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package monitoring.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// メトリクスデータ
+message MetricData {
+  string id = 1;
+  string metric_type = 2;
+  double value = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  map<string, string> labels = 5;
+  string unit = 6;
+}
+
+// メトリクスタイプ
+enum MetricType {
+  METRIC_TYPE_UNSPECIFIED = 0;
+  METRIC_TYPE_CPU_USAGE = 1;
+  METRIC_TYPE_MEMORY_USAGE = 2;
+  METRIC_TYPE_DISK_IO = 3;
+  METRIC_TYPE_NETWORK_IO = 4;
+  METRIC_TYPE_REQUEST_RATE = 5;
+  METRIC_TYPE_ERROR_RATE = 6;
+  METRIC_TYPE_LATENCY = 7;
+}
+
+// メトリクスサマリー
+message MetricSummary {
+  string metric_type = 1;
+  double min = 2;
+  double max = 3;
+  double avg = 4;
+  int64 count = 5;
+  google.protobuf.Timestamp start_time = 6;
+  google.protobuf.Timestamp end_time = 7;
+}
