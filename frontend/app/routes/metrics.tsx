@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation } from '@remix-run/react';
+import { Outlet, Link, useLocation } from 'react-router';
 
 export default function MetricsLayout() {
   const location = useLocation();

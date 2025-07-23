@@ -1,6 +1,5 @@
-import { useLoaderData } from '@remix-run/react';
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import { useLoaderData } from 'react-router';
+import type { ClientLoaderFunctionArgs } from 'react-router';
 import { monitoringClient } from '~/lib/client';
 import { MetricsChart } from '~/components/MetricsChart';
 import { MetricsSummary } from '~/components/MetricsSummary';
@@ -8,7 +7,7 @@ import { useMetricsStream } from '~/lib/hooks/useMetricsStream';
 import { toJson } from '@bufbuild/protobuf';
 import { GetMetricSummaryResponseSchema } from '~/lib/proto/monitoring/v1/service_pb';
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
   const metricType = params.type!;
 
   try {
@@ -20,21 +19,21 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
     // Convert to JSON to handle BigInt serialization
     const jsonResponse = toJson(GetMetricSummaryResponseSchema, response);
-    return json({
+    return {
       summary: jsonResponse.summary,
       metricType,
-    });
+    };
   } catch (error) {
     console.error('Failed to fetch metric summary:', error);
-    return json({
+    return {
       summary: null,
       metricType,
-    });
+    };
   }
 };
 
 export default function MetricDetail() {
-  const { summary, metricType } = useLoaderData<typeof loader>();
+  const { summary, metricType } = useLoaderData<typeof clientLoader>();
   const { data, error, loading } = useMetricsStream([metricType]);
 
   const metricInfo = {

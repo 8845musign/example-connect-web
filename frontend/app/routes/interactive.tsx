@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import { monitoringClient } from '~/lib/client';
 import type { QueryResponse } from '~/lib/proto/monitoring/v1/service_pb';
 import { timestampDate } from '@bufbuild/protobuf/wkt';

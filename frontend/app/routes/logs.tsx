@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import { monitoringClient } from '~/lib/client';
 import type { LogEntry, LogLevel } from '~/lib/proto/monitoring/v1/logs_pb';
 import { timestampDate } from '@bufbuild/protobuf/wkt';
