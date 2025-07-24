@@ -6,6 +6,9 @@ import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 export default [
   ...rootConfig,
   {
+    ignores: ['.react-router/**'],
+  },
+  {
     files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
       react: reactPlugin,

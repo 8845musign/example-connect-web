@@ -4,8 +4,8 @@ import { monitoringClient } from '~/lib/client';
 import { MetricsChart } from '~/components/MetricsChart';
 import { MetricsSummary } from '~/components/MetricsSummary';
 import { useMetricsStream } from '~/lib/hooks/useMetricsStream';
-import { toJson } from '@bufbuild/protobuf';
-import { GetMetricSummaryResponseSchema } from '~/lib/proto/monitoring/v1/service_pb';
+import { create } from '@bufbuild/protobuf';
+import { TimestampSchema } from '@bufbuild/protobuf/wkt';
 
 export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
   const metricType = params.type!;
@@ -13,14 +13,18 @@ export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
   try {
     const response = await monitoringClient.getMetricSummary({
       metricType,
-      startTime: new Date(Date.now() - 3600000), // 過去1時間
-      endTime: new Date(),
+      startTime: create(TimestampSchema, {
+        seconds: BigInt(Math.floor((Date.now() - 3600000) / 1000)),
+        nanos: 0,
+      }),
+      endTime: create(TimestampSchema, {
+        seconds: BigInt(Math.floor(Date.now() / 1000)),
+        nanos: 0,
+      }),
     });
 
-    // Convert to JSON to handle BigInt serialization
-    const jsonResponse = toJson(GetMetricSummaryResponseSchema, response);
     return {
-      summary: jsonResponse.summary,
+      summary: response.summary ?? null,
       metricType,
     };
   } catch (error) {

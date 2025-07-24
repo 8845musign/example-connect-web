@@ -1,7 +1,13 @@
 import { useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router';
 import { monitoringClient } from '~/lib/client';
-import type { QueryResponse } from '~/lib/proto/monitoring/v1/service_pb';
+import type { QueryRequest, QueryResponse } from '~/lib/proto/monitoring/v1/service_pb';
+import {
+  QueryRequestSchema,
+  UpdateMetricsFilterSchema,
+  PauseResumeSchema,
+} from '~/lib/proto/monitoring/v1/service_pb';
+import { create } from '@bufbuild/protobuf';
 import { timestampDate } from '@bufbuild/protobuf/wkt';
 
 export default function InteractivePage() {
@@ -9,29 +15,47 @@ export default function InteractivePage() {
   const [isConnected, setIsConnected] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [selectedMetrics, setSelectedMetrics] = useState<string[]>(['cpu_usage', 'memory_usage']);
-  const streamRef = useRef<any>(null);
+  const requestQueueRef = useRef<QueryRequest[]>([]);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const connect = useCallback(async () => {
     try {
-      const stream = await monitoringClient.interactiveQuery();
-      streamRef.current = stream;
-      setIsConnected(true);
+      // Create an abort controller for cancellation
+      abortControllerRef.current = new AbortController();
 
-      // 初期フィルター設定
-      await stream.send({
-        query: {
-          case: 'updateMetricsFilter' as const,
-          value: {
-            metricTypes: selectedMetrics,
-            labelFilters: {},
+      // Create an async generator for requests
+      async function* requestGenerator(): AsyncGenerator<QueryRequest> {
+        // Send initial filter
+        yield create(QueryRequestSchema, {
+          query: {
+            case: 'updateMetricsFilter' as const,
+            value: create(UpdateMetricsFilterSchema, {
+              metricTypes: selectedMetrics,
+              labelFilters: {},
+            }),
           },
-        },
+        });
+
+        // Process queued requests
+        while (!abortControllerRef.current?.signal.aborted) {
+          if (requestQueueRef.current.length > 0) {
+            const request = requestQueueRef.current.shift()!;
+            yield request;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+      }
+
+      const responseStream = monitoringClient.interactiveQuery(requestGenerator(), {
+        signal: abortControllerRef.current.signal,
       });
+
+      setIsConnected(true);
 
       // レスポンス処理
       (async () => {
         try {
-          for await (const response of stream) {
+          for await (const response of responseStream) {
             setResponses((prev) => {
               const updated = [...prev, response];
               return updated.slice(-100); // 最新100件のみ保持
@@ -49,9 +73,9 @@ export default function InteractivePage() {
   }, [selectedMetrics]);
 
   const disconnect = useCallback(() => {
-    if (streamRef.current) {
-      streamRef.current.close();
-      streamRef.current = null;
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
     }
     setIsConnected(false);
     setIsPaused(false);
@@ -59,16 +83,18 @@ export default function InteractivePage() {
 
   const updateMetricsFilter = useCallback(
     async (metrics: string[]) => {
-      if (streamRef.current && isConnected) {
-        await streamRef.current.send({
-          query: {
-            case: 'updateMetricsFilter' as const,
-            value: {
-              metricTypes: metrics,
-              labelFilters: {},
+      if (isConnected) {
+        requestQueueRef.current.push(
+          create(QueryRequestSchema, {
+            query: {
+              case: 'updateMetricsFilter' as const,
+              value: create(UpdateMetricsFilterSchema, {
+                metricTypes: metrics,
+                labelFilters: {},
+              }),
             },
-          },
-        });
+          }),
+        );
         setSelectedMetrics(metrics);
       }
     },
@@ -76,16 +102,18 @@ export default function InteractivePage() {
   );
 
   const togglePause = useCallback(async () => {
-    if (streamRef.current && isConnected) {
+    if (isConnected) {
       const newPaused = !isPaused;
-      await streamRef.current.send({
-        query: {
-          case: 'pauseResume' as const,
-          value: {
-            paused: newPaused,
+      requestQueueRef.current.push(
+        create(QueryRequestSchema, {
+          query: {
+            case: 'pauseResume' as const,
+            value: create(PauseResumeSchema, {
+              paused: newPaused,
+            }),
           },
-        },
-      });
+        }),
+      );
       setIsPaused(newPaused);
     }
   }, [isConnected, isPaused]);
