@@ -48,10 +48,14 @@ export class MonitoringServiceImpl {
     const metricTypes =
       req.metricTypes.length > 0 ? req.metricTypes : ['cpu_usage', 'memory_usage', 'network_io'];
 
-    console.log(`Starting metrics stream for types: ${metricTypes.join(', ')}`);
+    console.log(`Starting metrics stream for types: ${metricTypes.join(', ')}, interval: ${intervalMs}ms`);
 
+    let lastSendTime = Date.now();
     while (!context.signal.aborted) {
-      for (const metricType of metricTypes) {
+      const startTime = Date.now();
+
+      for (let i = 0; i < metricTypes.length; i++) {
+        const metricType = metricTypes[i];
         const metric = this.metricsGenerator.generateMetric(metricType);
 
         // ラベルフィルターの適用
@@ -62,10 +66,26 @@ export class MonitoringServiceImpl {
           if (!matches) continue;
         }
 
+        const currentTime = Date.now();
+        const timeSinceLastSend = currentTime - lastSendTime;
+        console.log(`Sending ${metricType} - Time since last send: ${timeSinceLastSend}ms`);
+        lastSendTime = currentTime;
+        
         yield metric;
+
+        // 最後のメトリクスでない場合は間隔を設ける
+        if (i < metricTypes.length - 1) {
+          const waitTime = intervalMs / metricTypes.length;
+          console.log(`Waiting ${waitTime}ms until next metric`);
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+        }
       }
 
-      await new Promise((resolve) => setTimeout(resolve, intervalMs));
+      // 残り時間を待機（全体のサイクルをintervalMsに保つ）
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, intervalMs - elapsedTime);
+      console.log(`Cycle elapsed: ${elapsedTime}ms, waiting remaining: ${remainingTime}ms`);
+      await new Promise((resolve) => setTimeout(resolve, remainingTime));
     }
   }
 
@@ -183,8 +203,11 @@ export class MonitoringServiceImpl {
 
       // データ生成
       if (!paused) {
+        const startTime = Date.now();
+
         // メトリクスデータの生成
-        for (const metricType of metricTypes) {
+        for (let i = 0; i < metricTypes.length; i++) {
+          const metricType = metricTypes[i];
           const metric = this.metricsGenerator.generateMetric(metricType);
 
           const matches = Object.entries(labelFilters).every(
@@ -198,6 +221,11 @@ export class MonitoringServiceImpl {
                 value: metric,
               },
             });
+          }
+
+          // 最後のメトリクスでない場合は間隔を設ける
+          if (i < metricTypes.length - 1) {
+            await new Promise((resolve) => setTimeout(resolve, 1000 / metricTypes.length));
           }
         }
 
@@ -213,9 +241,15 @@ export class MonitoringServiceImpl {
             });
           }
         }
-      }
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+        // 残り時間を待機（全体のサイクルを1000msに保つ）
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, 1000 - elapsedTime);
+        await new Promise((resolve) => setTimeout(resolve, remainingTime));
+      } else {
+        // ポーズ中は1秒待機
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
     }
   }
 

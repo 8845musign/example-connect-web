@@ -2,14 +2,11 @@ import { useEffect, useState, useRef } from 'react';
 import { monitoringClient } from '../client';
 import type { MetricData } from '../proto/monitoring/v1/metrics_pb';
 
-export function useMetricsStream(metricTypes: string[]) {
+export function useMetricsStream(metricTypes: string[], intervalMs: number = 1000) {
   const [data, setData] = useState<MetricData[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
   const abortControllerRef = useRef<AbortController | null>(null);
-
-  // Extract the dependency to a separate variable for ESLint
-  const metricTypesKey = metricTypes.join(',');
 
   useEffect(() => {
     // 前回の接続をキャンセル
@@ -28,7 +25,7 @@ export function useMetricsStream(metricTypes: string[]) {
         const stream = monitoringClient.streamMetrics(
           {
             metricTypes,
-            intervalMs: 1000,
+            intervalMs,
           },
           { signal: abortController.signal },
         );
@@ -57,7 +54,7 @@ export function useMetricsStream(metricTypes: string[]) {
     return () => {
       abortController.abort();
     };
-  }, [metricTypes, metricTypesKey]); // metricTypesが変更されたら再接続
+  }, [metricTypes, intervalMs]); // metricTypesまたはintervalMsが変更されたら再接続
 
   return { data, error, loading };
 }

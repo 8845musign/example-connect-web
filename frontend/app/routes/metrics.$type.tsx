@@ -1,5 +1,6 @@
 import { useLoaderData } from 'react-router';
 import type { ClientLoaderFunctionArgs } from 'react-router';
+import { useState, useMemo } from 'react';
 import { monitoringClient } from '~/lib/client';
 import { MetricsChart } from '~/components/MetricsChart';
 import { MetricsSummary } from '~/components/MetricsSummary';
@@ -38,7 +39,11 @@ export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
 
 export default function MetricDetail() {
   const { summary, metricType } = useLoaderData<typeof clientLoader>();
-  const { data, error, loading } = useMetricsStream([metricType]);
+  const [intervalMs, setIntervalMs] = useState(1000);
+
+  // useMemoで配列の再生成を防ぐ
+  const metricTypes = useMemo(() => [metricType], [metricType]);
+  const { data, error, loading } = useMetricsStream(metricTypes, intervalMs);
 
   const metricInfo = {
     cpu_usage: { name: 'CPU使用率', unit: '%', color: '#ff6b6b' },
@@ -74,7 +79,7 @@ export default function MetricDetail() {
         <div className="controls">
           <label>
             更新間隔:
-            <select>
+            <select value={intervalMs} onChange={(e) => setIntervalMs(Number(e.target.value))}>
               <option value="1000">1秒</option>
               <option value="2000">2秒</option>
               <option value="5000">5秒</option>
