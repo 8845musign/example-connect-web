@@ -47,9 +47,6 @@ export class MonitoringServiceImpl {
     const intervalMs = req.intervalMs || 1000;
     const metricTypes =
       req.metricTypes.length > 0 ? req.metricTypes : ['cpu_usage', 'memory_usage', 'network_io'];
-
-    console.log(`Starting metrics stream for types: ${metricTypes.join(', ')}, interval: ${intervalMs}ms`);
-
     let lastSendTime = Date.now();
     while (!context.signal.aborted) {
       const startTime = Date.now();
@@ -70,7 +67,7 @@ export class MonitoringServiceImpl {
         const timeSinceLastSend = currentTime - lastSendTime;
         console.log(`Sending ${metricType} - Time since last send: ${timeSinceLastSend}ms`);
         lastSendTime = currentTime;
-        
+
         yield metric;
 
         // 最後のメトリクスでない場合は間隔を設ける
